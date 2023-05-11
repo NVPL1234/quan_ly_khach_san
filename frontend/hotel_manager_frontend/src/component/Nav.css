@@ -1,0 +1,47 @@
+nav {
+  background: rgb(3, 239, 251);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 25px;
+  background-size: auto;
+}
+
+nav ul {
+  list-style-type: none;
+  font-family: 'Times New Roman', Times, serif;
+  
+}
+
+nav>ul>li {
+  
+  display: inline;
+  text-decoration: none;
+  color: black;
+  display: block;
+  font-size: large;
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+nav ul li .nav-link:hover {
+  
+  color: red;
+  font: optional;
+  background: rgb(2, 180, 250);
+}
+
+nav ul li:hover .sub-menu {
+  display: block;
+
+}
+
+.sub-menu {
+  clear: both;
+  display: none;
+  position: fixed;
+  background: rgb(3, 239, 251);
+  z-index: 6;
+}
