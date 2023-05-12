@@ -89,7 +89,7 @@ export default function QuanLiLoaiDichVu() {
                         <div>
                             <form>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='ten' className="form-label col-2">Nhập tên loại dịch vụ</label>
+                                    <label htmlFor='ten' className="form-label col-4">Nhập tên loại dịch vụ</label>
                                     <input type='text' placeholder="Nhập tên loại dịch vụ" className="form-control col" id='ten' value={ten} onChange={event => setTen(event.target.value)} />
                                 </div>
                                 <input type='button' value='LƯU' className='btn btn-primary' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luu} />

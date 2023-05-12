@@ -20,13 +20,14 @@ export default function DatPhong() {
     const [tienCoc, setTienCoc] = useState(0)
     const [trangThai, setTrangThai] = useState('Đã đặt')
     const [loaiThue, setLoaiThue] = useState('Thuê theo giờ')
-    const [maKH, setMaKH] = useState('')
-    const [maNV, setMaNV] = useState(parseInt(localStorage.getItem('maTK')))
-    const [maLoaiPhong, setMaLoaiPhong] = useState('')
+    const [maKH, setMaKH] = useState(0)
     const [tenKH, setTenKH] = useState('')
+    const [gioiTinh, setGioiTinh] = useState('Nam')
     const [diaChi, setDiaChi] = useState('')
     const [soCMND, setSoCMND] = useState('')
     const [sDT, setSDT] = useState('')
+    const [maNV, setMaNV] = useState(parseInt(localStorage.getItem('maTK')))
+    const [maLoaiPhong, setMaLoaiPhong] = useState('')
     const [hienModalCTHD, setHienModalCTHD] = useState(false)
     const [hienModalDatPhong, setHienModalDatPhong] = useState(false)
     const [hienModalCapNhat, setHienModalCapNhat] = useState(false)
@@ -70,6 +71,7 @@ export default function DatPhong() {
                 setMaHD(maHD)
                 setNgayNhan(moment(dshd[i].ngayNhanPhong).format('YYYY-MM-DD HH:mm:ss'))
                 setNgayTra(moment(dshd[i].ngayTraPhong).format('YYYY-MM-DD HH:mm:ss'))
+                localStorage.setItem('loaiThue', dshd[i].loaiThue)
                 moModalCTHD(maHD)
             })
             var btnCapNhat = document.createElement('button')
@@ -104,6 +106,7 @@ export default function DatPhong() {
                         await axios.put('http://localhost:8080/rooms/' + dscthd[j].phong.maPhong + '/Trống')
                     await axios.delete('http://localhost:8080/orders/' + maHD)
                     alert('Đã xoá!')
+                    window.location.reload()
                 }
             })
             oChon.appendChild(btnCapNhat);
@@ -129,8 +132,7 @@ export default function DatPhong() {
             var oGiaGioDau = hang.insertCell();
             var oGiaGioTiepTheo = hang.insertCell();
             var oGiaTheoNgay = hang.insertCell();
-            var oGiaQuaDem = hang.insertCell();
-            var oChon = hang.insertCell();
+            // var oChon = hang.insertCell();
 
             var maPhong = document.createTextNode(dsphong[i].phong.maPhong);
             oMaPhong.appendChild(maPhong);
@@ -147,41 +149,39 @@ export default function DatPhong() {
             oGiaGioTiepTheo.appendChild(giaGioTiepTheo);
             var giaTheoNgay = document.createTextNode(dsphong[i].phong.giaTheoNgay);
             oGiaTheoNgay.appendChild(giaTheoNgay);
-            var giaQuaDem = document.createTextNode(dsphong[i].phong.giaQuaDem);
-            oGiaQuaDem.appendChild(giaQuaDem);
             var tenLoaiPhong = document.createTextNode(dsphong[i].phong.loaiPhong.ten);
             oTenLoaiPhong.appendChild(tenLoaiPhong);
             var tenTang = document.createTextNode(dsphong[i].phong.tang.tenTang);
             oTenTang.appendChild(tenTang);
             let giaGioDau2 = document.getElementById('o_gia_gio_dau ' + i).textContent
-            document.getElementById('thanh_tien').textContent = parseInt(document.getElementById('thanh_tien').textContent) + parseInt(giaGioDau2) + ' đ'
-            var btnXoa = document.createElement('button')
-            btnXoa.setAttribute('class', 'btn btn-danger')
-            btnXoa.innerHTML = 'XOÁ'
-            btnXoa.type = 'button'
-            btnXoa.value = dsphong[i].phong.maPhong
-            if (dsphong.length <= 1)
-                btnXoa.disabled = true
-            btnXoa.addEventListener('click', async function () {
-                if (!(window.confirm('Bạn có chắc muốn xoá?')))
-                    return false
-                else if (dsphong.length > 1) {
-                    try {
-                        await axios.delete('http://localhost:8080/room_order_details/' + maHD + '/' + this.value)
-                        await axios.put('http://localhost:8080/rooms/' + this.value + '/Trống')
-                        let tbody = document.getElementById('dsphong_da_dat_1').getElementsByTagName('tbody')[0];
-                        var rowCount = tbody.rows.length;
-                        for (var i = rowCount - 1; i >= 0; i--) {
-                            tbody.deleteRow(i);
-                        }
-                        document.getElementById('thanh_tien').textContent = '0 đ'
-                        moModalCTHD(maHD)
-                    } catch (error) {
-                        console.log(error.message);
-                    }
-                }
-            })
-            oChon.appendChild(btnXoa);
+            // document.getElementById('thanh_tien').textContent = parseInt(document.getElementById('thanh_tien').textContent) + parseInt(giaGioDau2) + ' đ'
+            // var btnXoa = document.createElement('button')
+            // btnXoa.setAttribute('class', 'btn btn-danger')
+            // btnXoa.innerHTML = 'XOÁ'
+            // btnXoa.type = 'button'
+            // btnXoa.value = dsphong[i].phong.maPhong
+            // if (dsphong.length <= 1)
+            //     btnXoa.disabled = true
+            // btnXoa.addEventListener('click', async function () {
+            //     if (!(window.confirm('Bạn có chắc muốn xoá?')))
+            //         return false
+            //     else if (dsphong.length > 1) {
+            //         try {
+            //             await axios.delete('http://localhost:8080/room_order_details/' + maHD + '/' + this.value)
+            //             await axios.put('http://localhost:8080/rooms/' + this.value + '/Trống')
+            //             let tbody = document.getElementById('dsphong_da_dat_1').getElementsByTagName('tbody')[0];
+            //             var rowCount = tbody.rows.length;
+            //             for (var i = rowCount - 1; i >= 0; i--) {
+            //                 tbody.deleteRow(i);
+            //             }
+            //             document.getElementById('thanh_tien').textContent = '0 đ'
+            //             moModalCTHD(maHD)
+            //         } catch (error) {
+            //             console.log(error.message);
+            //         }
+            //     }
+            // })
+            // oChon.appendChild(btnXoa);
         }
     }
 
@@ -280,20 +280,35 @@ export default function DatPhong() {
     }
 
     const luuKH = async () => {
+
         if (ktdiachi() && kttenkhachhang() && kTsdt() && kTso_cmnd()) {
             try {
-                const res = await axios.post('http://localhost:8080/customers', {
-                    maNguoiDung: maKH,
+                let res1 = await axios.post('http://localhost:8080/tai_khoan', {
+                    maTK: 0,
+                    tenDangNhap: sDT,
+                    matKhau: '12345678'
+                })
+                let taiKhoan = res1.data
+                let res2 = await axios.post('http://localhost:8080/customers', {
+                    taiKhoan: {
+                        maTK: taiKhoan.maTK
+                    },
                     tenKH: tenKH,
+                    gioiTinh: gioiTinh,
                     diaChi: diaChi,
                     soCMND: soCMND,
                     sDT: sDT
                 })
-                let kh = res.data
+                let kh = res2.data
                 var datalist = document.getElementById("dskh");
                 var option = document.createElement("option");
-                option.value = kh.maNguoiDung + ' - ' + kh.tenKH + ' - ' + kh.sDT + ' - ' + kh.soCMND
+                option.value = kh.maKH + ' - ' + kh.tenKH + ' - ' + kh.sDT + ' - ' + kh.soCMND
                 datalist.appendChild(option);
+                setTenKH('')
+                setGioiTinh('Nam')
+                setDiaChi('')
+                setSoCMND('')
+                setSDT('')
                 alert('Lưu thành công!')
             } catch (error) {
                 console.log(error.message);
@@ -318,9 +333,8 @@ export default function DatPhong() {
                         giaGioDau: phong.giaGioDau,
                         giaGioTiepTheo: phong.giaGioTiepTheo,
                         giaTheoNgay: phong.giaTheoNgay,
-                        giaQuaDem: phong.giaQuaDem
                     })
-                    console.log(res2.data)
+                    setHienModalThemPhong(false)
                 } catch (error) {
                     console.log(error.message);
                 }
@@ -362,7 +376,6 @@ export default function DatPhong() {
                         giaGioDau: phong.giaGioDau,
                         giaGioTiepTheo: phong.giaGioTiepTheo,
                         giaTheoNgay: phong.giaTheoNgay,
-                        giaQuaDem: phong.giaQuaDem
                     })
                 } catch (error) {
                     console.log(error.message);
@@ -373,6 +386,11 @@ export default function DatPhong() {
         setNgayTra('')
         setMaKH('')
         document.getElementById('thanh_tien').textContent = '0 đ'
+        let tbody = document.getElementById('dsphong').getElementsByTagName('tbody')[0];
+        var rowCount = tbody.rows.length;
+        for (var i = rowCount - 1; i >= 0; i--) {
+            tbody.deleteRow(i);
+        }
         alert("Đặt phòng thành công!")
     }
 
@@ -409,7 +427,6 @@ export default function DatPhong() {
                         giaGioDau: phong.giaGioDau,
                         giaGioTiepTheo: phong.giaGioTiepTheo,
                         giaTheoNgay: phong.giaTheoNgay,
-                        giaQuaDem: phong.giaQuaDem
                     })
                 } catch (error) {
                     console.log(error.message);
@@ -420,6 +437,11 @@ export default function DatPhong() {
         setNgayTra('')
         setMaKH('')
         document.getElementById('thanh_tien').textContent = '0 đ'
+        let tbody = document.getElementById('dsphong').getElementsByTagName('tbody')[0];
+        var rowCount = tbody.rows.length;
+        for (var i = rowCount - 1; i >= 0; i--) {
+            tbody.deleteRow(i);
+        }
         alert('Nhận phòng thành công!')
     }
 
@@ -441,6 +463,7 @@ export default function DatPhong() {
                 console.log(error.message);
             }
         }
+        setHienModalCTHD(false)
         alert('Nhận phòng thành công!')
     }
 
@@ -636,16 +659,6 @@ export default function DatPhong() {
         setHienModalCTHD(false)
         setHienModalThemPhong(true)
         async function layPhong() {
-            console.log(maHD);
-            console.log(ngayNhan);
-            console.log(ngayTra);
-            // let ngayNhanf = moment(ngayNhan).format('YYYY-MM-DD');
-            // let tbody = document.getElementById('dsphong').getElementsByTagName('tbody')[0];
-            // var rowCount = tbody.rows.length;
-            // for (var i = rowCount - 1; i >= 0; i--) {
-            //     tbody.deleteRow(i);
-            // }
-            // document.getElementById('thanh_tien').textContent = '0 đ'
             try {
                 var res = await axios.get('http://localhost:8080/rooms/ngayNhanPhong/' + ngayNhan + '/ngayTraPhong/' + ngayTra)
                 dsphong = res.data
@@ -659,11 +672,9 @@ export default function DatPhong() {
     }
 
     const capNhatHD = async () => {
-        let ngayLapHDf = moment(ngayLapHD).format('YYYY-MM-DD HH:mm:ss')
-        let ngayNhanf = moment(ngayNhan).format('YYYY-MM-DD HH:mm:ss')
-        let ngayTraf = moment(ngayTra).format('YYYY-MM-DD HH:mm:ss')
         try {
-            await axios.put('http://localhost:8080/orders/' + maHD + '/' + ngayLapHDf + '/' + ngayNhanf + '/' + ngayTraf + '/' + loaiThue)
+            await axios.put('http://localhost:8080/orders/' + maHD + '/' + tienCoc)
+            alert('Đã cập nhật!')
         }
         catch (error) {
             console.log(error.message);
@@ -671,7 +682,7 @@ export default function DatPhong() {
     }
 
     useEffect(() => {
-        if (hienModalCTHD == false) {
+        if (hienModalCTHD == false || hienModalDatPhong == false || hienModalCapNhat == false || hienModalThemPhong == false) {
             async function layDuLieu() {
 
                 let tbody = document.getElementById('hoa_don').getElementsByTagName('tbody')[0];
@@ -690,7 +701,7 @@ export default function DatPhong() {
 
             layDuLieu()
         }
-    }, [hienModalCTHD])
+    }, [hienModalCTHD, hienModalDatPhong, hienModalCapNhat, hienModalThemPhong])
 
     return (
         <div className="row" style={{ marginTop: '2%' }}>
@@ -765,7 +776,7 @@ export default function DatPhong() {
 
                                             <button type='button' className='btn btn-primary col-2' style={{ marginLeft: '1%' }} data-bs-toggle="modal" data-bs-target="#myModal"><AiOutlineUserAdd /></button>
                                             <div className="modal" id="myModal">
-                                                <div className="modal-dialog modal-lg">
+                                                <div className="modal-dialog modal-fullscreen">
                                                     <div className="modal-content">
 
                                                         <div className="modal-header">
@@ -776,34 +787,41 @@ export default function DatPhong() {
                                                         <div className="modal-body">
                                                             <form>
                                                                 <div className="row">
-                                                                    <label htmlFor='ten_kh' className="form-label col-3">Nhập tên khách hàng</label>
+                                                                    <label htmlFor='ten_kh' className="form-label col-4">Nhập tên khách hàng</label>
                                                                     <input type='text' className="form-control col" id='ten_kh' placeholder="Nhập tên khách hàng" value={tenKH} onChange={event => setTenKH(event.target.value)} onBlur={e => { kttenkhachhang() }} />
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '1%' }}>
                                                                     <p style={{ color: 'red' }} id='loiten_kh'>*</p>
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '2%' }}>
-                                                                    <label htmlFor='dia_chi' className="form-label col-3">Nhập địa chỉ</label>
+                                                                    <label htmlFor='gioi_tinh' className="form-label col-4">Chọn giới tính</label>
+                                                                    <select className="form-select col" id='gioi_tinh' value={gioiTinh} onChange={event => setGioiTinh(event.target.value)}>
+                                                                        <option value="Nam">Nam</option>
+                                                                        <option value="Nữ">Nữ</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="row" style={{ marginTop: '2%' }}>
+                                                                    <label htmlFor='dia_chi' className="form-label col-4">Nhập địa chỉ</label>
                                                                     <input type='text' className="form-control col" placeholder='Nhập địa chỉ' id='dia_chi' value={diaChi} onChange={event => setDiaChi(event.target.value)} onBlur={e => { ktdiachi() }} />
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '1%' }}>
                                                                     <p style={{ color: 'red' }} id='loidia_chi'>*</p>
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '2%' }}>
-                                                                    <label htmlFor='so_cmnd' className="form-label col-3">Nhập số CMND/CCCD</label>
+                                                                    <label htmlFor='so_cmnd' className="form-label col-4">Nhập số CMND/CCCD</label>
                                                                     <input type='number' className="form-control col" placeholder='Nhập số CMND/CCCD' id='so_cmnd' value={soCMND} onChange={event => setSoCMND(event.target.value)} onBlur={e => { kTso_cmnd() }} />
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '1%' }}>
                                                                     <p style={{ color: 'red' }} id='loiso_cmnd'>*</p>
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '2%' }}>
-                                                                    <label htmlFor='sdt' className="form-label col-3">Nhập số điện thoại</label>
+                                                                    <label htmlFor='sdt' className="form-label col-4">Nhập số điện thoại</label>
                                                                     <input type='number' className="form-control col" id='sdt' placeholder="Nhập số điện thoại" value={sDT} onChange={event => setSDT(event.target.value)} onBlur={e => kTsdt()} />
                                                                 </div>
                                                                 <div className="row" style={{ marginTop: '1%' }}>
                                                                     <p style={{ color: 'red' }} id='loisdt'>*</p>
                                                                 </div>
-                                                                <input type='button' value='LƯU' className='btn btn-primary' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luuKH} />
+                                                                <input type='button' value='LƯU' className='btn btn-success' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luuKH} />
                                                             </form>
                                                         </div>
 
@@ -815,7 +833,7 @@ export default function DatPhong() {
                                             </div>
                                         </div>
                                         <div style={{ marginTop: '5%' }} className='row'>
-                                            <h5>TẠM TÍNH: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5>
+                                            <h5>THÀNH TIỀN: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5>
                                         </div>
                                         <div className="row" style={{ marginTop: '5%' }}>
                                             <input type='button' value='ĐẶT PHÒNG' className='btn btn-primary col' style={{ marginRight: '2%' }} onClick={datPhong} />
@@ -852,24 +870,8 @@ export default function DatPhong() {
                             <form>
                                 <div className="row" style={{ marginTop: '2%' }}>
                                     <div className="row">
-                                        <label htmlFor='ngay_lap_hd' className="form-label col-5">Nhập ngày lập hoá đơn</label>
-                                        <input type='datetime-local' className="form-control col" placeholder='Nhập ngày lập hoá đơn' id='ngay_lap_hd' value={ngayLapHD} onChange={event => setNgayLapHD(event.target.value)} />
-                                    </div>
-                                    <div className="row" style={{ marginTop: '1%' }}>
-                                        <label htmlFor='ngay_nhan_phong' className="form-label col-5">Nhập ngày nhận phòng</label>
-                                        <input type='datetime-local' className="form-control col" placeholder='Nhập ngày nhận phòng' id='ngay_nhan_phong' value={ngayNhan} onChange={event => setNgayNhan(event.target.value)} />
-                                    </div>
-                                    <div className="row" style={{ marginTop: '1%' }}>
-                                        <label htmlFor='ngay_tra_phong' className="form-label col-5">Nhập ngày trả phòng</label>
-                                        <input type='datetime-local' className="form-control col" placeholder='Nhập ngày trả phòng' id='ngay_tra_phong' value={ngayTra} onChange={event => setNgayTra(event.target.value)} />
-                                    </div>
-                                    <div className="row" style={{ marginTop: '1%' }}>
-                                        <label htmlFor='loai_thue' className="form-label col-5">Chọn loại thuê</label>
-                                        <select id="loai_thue" className="form-select col" value={loaiThue} onChange={(e) => setLoaiThue(e.target.value)}>
-                                            <option value="Thuê theo giờ">Thuê theo giờ</option>
-                                            <option value="Thuê theo ngày">Thuê theo ngày</option>
-                                            <option value="Thuê qua đêm">Thuê qua đêm</option>
-                                        </select>
+                                        <label htmlFor='tien-coc' className="form-label col-5">Nhập tiền cọc</label>
+                                        <input type='number' className="form-control col" placeholder='Nhập tiền cọc' id='tien-coc' value={tienCoc} onChange={event => setTienCoc(event.target.value)} />
                                     </div>
                                     <div className="row" style={{ marginTop: '5%' }}>
                                         <input type='button' className="btn btn-success col" value='CẬP NHẬT' onClick={capNhatHD} />
@@ -907,8 +909,7 @@ export default function DatPhong() {
                                                         <th>Giá giờ đầu</th>
                                                         <th>Giá giờ tiếp theo</th>
                                                         <th>Giá theo ngày</th>
-                                                        <th>Giá qua đêm</th>
-                                                        <th>Chọn</th>
+                                                        {/* <th>Chọn</th> */}
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -918,7 +919,7 @@ export default function DatPhong() {
                                     </div>
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <h5>THÀNH TIỀN: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5>
+                                    {/* <h5>THÀNH TIỀN: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5> */}
                                     <input type="button" className="btn btn-success" value='NHẬN PHÒNG' onClick={nhanPhongDatTruoc} />
                                 </div>
                             </form>
@@ -946,11 +947,10 @@ export default function DatPhong() {
                                                         <th>Loại phòng</th>
                                                         <th>Số giường</th>
                                                         <th>Diện tích</th>
-                                                        <th>Giờ đầu</th>
-                                                        <th>Giá giờ đầu</th>
-                                                        <th>Giá giờ tiếp theo</th>
-                                                        <th>Giá theo ngày</th>
-                                                        <th>Giá qua đêm</th>
+                                                        {localStorage.getItem('loaiThue') == 'Thuê theo giờ' && <th>Giờ đầu</th>}
+                                                        {localStorage.getItem('loaiThue') == 'Thuê theo giờ' && <th>Giá giờ đầu</th>}
+                                                        {localStorage.getItem('loaiThue') == 'Thuê theo giờ' && <th>Giá giờ tiếp theo</th>}
+                                                        {localStorage.getItem('loaiThue') == 'Thuê theo ngày' && <th>Giá theo ngày</th>}
                                                         <th>Chọn</th>
                                                     </tr>
                                                 </thead>
@@ -961,7 +961,7 @@ export default function DatPhong() {
                                     </div>
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <h5>THÀNH TIỀN: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5>
+                                    {/* <h5>THÀNH TIỀN: <h5 id='thanh_tien' style={{ color: 'red' }}>0 đ</h5></h5> */}
                                     <input type='button' value='THÊM' className='btn btn-success' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={themCTHDPhong} />
                                 </div>
                             </form>

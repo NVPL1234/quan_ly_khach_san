@@ -26,12 +26,15 @@ export default function FormPhieuDatDichVu() {
 
             var hang = tbody.insertRow();
 
+            var oMaHD = hang.insertCell();
             var oMaPhong = hang.insertCell();
             var oNgayNhan = hang.insertCell();
             var oNgayTra = hang.insertCell();
             var oTenKH = hang.insertCell();
             var oChucNang = hang.insertCell();
 
+            var maHD = document.createTextNode(dshd[i][0].maHD)
+            oMaHD.appendChild(maHD);
             var maPhong = document.createTextNode(dshd[i][1].maPhong)
             oMaPhong.appendChild(maPhong);
             var ngayNhanPhong = document.createTextNode(moment(dshd[i][0].ngayNhanPhong).format('YYYY-MM-DD HH:mm:ss'));
@@ -374,6 +377,7 @@ export default function FormPhieuDatDichVu() {
                     <table id="hd" className="table table-hover">
                         <thead className="table-info">
                             <tr>
+                                <th>Mã hoá đơn</th>
                                 <th>Mã phòng</th>
                                 <th>Ngày nhận phòng</th>
                                 <th>Ngày trả phòng</th>

@@ -14,7 +14,7 @@ public interface HoaDonService {
 	public List<HoaDon> layDSHD(Long maKH, String trangThai);
 	public void capNhatTrangThai(Long maHD, String trangThai);
 	public List<Object> layDSHDCTDV(Long maKH, String trangThai);
-	public int capNhatHD(Long maHD, String ngayLapHD, String ngayNhanPhong, String ngayTraPhong, String loaiThue);
+	public int capNhatHD(Long maHD, double tienCoc);
 	public List<Object> timDSHDTrong(int soNgay);
 	public List<Object> timDSHDTheo(String ngayDau, String ngayCuoi);
 }

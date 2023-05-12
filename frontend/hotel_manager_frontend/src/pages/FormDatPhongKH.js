@@ -116,7 +116,9 @@ export default function FormDatPhongKH() {
                     {phong.length == null ? <h5 style={{ marginTop: '2%' }}>Phòng: {phong.maPhong}</h5> : <h5 style={{ marginTop: '2%' }}>Phòng: {phong.map((phong) => phong.maPhong + ', ')}</h5>}
                     <h5 style={{ marginTop: '2%' }}>Tổng tiền đặt cọc: {tongTien}</h5>
                     <input style={{ marginTop: '5%', marginLeft: '40%', width: '20%' }} className='btn btn-primary' type="button" value='XÁC NHẬN' onClick={e => setHienPayPal(true)} />
-                    {hienPayPal == true && <Paypal tongTien={tongTien} phong={phong} />}
+                    <div className="row" style={{marginLeft: '25%', marginTop: '1%'}}>
+                        {hienPayPal == true && <Paypal tongTien={tongTien} phong={phong} />}
+                    </div>
                 </form>
             </div>
         </div>

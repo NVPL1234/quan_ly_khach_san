@@ -101,7 +101,7 @@ export default function QuanLiChucVu() {
                         <div>
                             <form>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='ten_cv' className="form-label col-2">Nhập tên chức vụ</label>
+                                    <label htmlFor='ten_cv' className="form-label col-4">Nhập tên chức vụ</label>
                                     <input type='text' placeholder="Nhập tên chức vụ" className="form-control col" id='ten_cv' value={tenCV} onChange={event => setTenCV(event.target.value)} onBlur={e => ktTenChucVu()} />
                                 </div>
                                 <div className="row" style={{ marginTop: '1%' }}>

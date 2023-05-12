@@ -94,7 +94,7 @@ export default function QuanLiLoaiPhong() {
                     <Modal.Body>
                         <form>
                             <div className="row">
-                                <label htmlFor='ten' className="form-label col-2">Nhập tên loại phòng</label>
+                                <label htmlFor='ten' className="form-label col-4">Nhập tên loại phòng</label>
                                 <input type='text' className="form-control col" placeholder='Nhập tên loại phòng' id='ten' value={ten} onChange={event => setTen(event.target.value)} />
                             </div>
                             <input type='button' value='LƯU' className='btn btn-primary' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luu} />

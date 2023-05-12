@@ -219,28 +219,28 @@ export default function TraPhong() {
             oGiaDV.appendChild(giaDV);
             var donVi = document.createTextNode(dscthddv[i].dichVu.donVi);
             oDonVi.appendChild(donVi);
-            let soLuongCu = dscthddv[i].soLuong
-            var selectSL = document.createElement('select');
-            selectSL.className = 'form-select'
-            selectSL.id = dscthddv[i].dichVu.maDV
+            // let soLuongCu = dscthddv[i].soLuong
+            var selectSL = document.createTextNode(dscthddv[i].soLuong);
+            // selectSL.className = 'form-select'
+            // selectSL.id = dscthddv[i].dichVu.maDV
             oSoLuong.appendChild(selectSL);
-            for (let j = soLuongCu; j > 0; j--) {
-                var option = document.createElement("option");
-                option.text = j
-                option.value = j
-                selectSL.add(option);
-            }
-            selectSL.addEventListener('change', (e) => {
-                document.getElementById('o_thanh_tien ' + i).innerHTML = e.target.value * dscthddv[i].dichVu.giaDV
-                var ttPhongVaDV = document.getElementsByClassName('o_thanh_tien');
-                var len = ttPhongVaDV.length;
-                let tongThanhTien = 0
-                for (let k = 0; k < len; k++) {
-                    tongThanhTien = tongThanhTien + parseFloat(ttPhongVaDV[k].textContent)
-                }
-                document.getElementById('thanh_tien3').innerHTML = tongThanhTien + ' đ'
-                setMaDV(maDV => [...maDV, dscthddv[i].dichVu.maDV])
-            })
+            // for (let j = soLuongCu; j > 0; j--) {
+            //     var option = document.createElement("option");
+            //     option.text = j
+            //     option.value = j
+            //     selectSL.add(option);
+            // }
+            // selectSL.addEventListener('change', (e) => {
+            //     document.getElementById('o_thanh_tien ' + i).innerHTML = e.target.value * dscthddv[i].dichVu.giaDV
+            //     var ttPhongVaDV = document.getElementsByClassName('o_thanh_tien');
+            //     var len = ttPhongVaDV.length;
+            //     let tongThanhTien = 0
+            //     for (let k = 0; k < len; k++) {
+            //         tongThanhTien = tongThanhTien + parseFloat(ttPhongVaDV[k].textContent)
+            //     }
+            //     document.getElementById('thanh_tien3').innerHTML = tongThanhTien + ' đ'
+            //     setMaDV(maDV => [...maDV, dscthddv[i].dichVu.maDV])
+            // })
             var thanhTien = document.createTextNode(dscthddv[i].soLuong * dscthddv[i].dichVu.giaDV);
             oThanhTien.appendChild(thanhTien)
         }

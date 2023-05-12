@@ -27,10 +27,23 @@ public class AuthController {
 	private TokenService tokenService;
 
 	@PostMapping("/tai_khoan")
-	public TaiKhoan register(@RequestBody TaiKhoan nguoiDung) {
-		if (nguoiDung.getMatKhau() != null)
-			nguoiDung.setMatKhau(new BCryptPasswordEncoder().encode(nguoiDung.getMatKhau()));
-		return userService.createUser(nguoiDung);
+	public TaiKhoan register(@RequestBody TaiKhoan taiKhoan) {
+		if (taiKhoan.getMatKhau() != null)
+			taiKhoan.setMatKhau(new BCryptPasswordEncoder().encode(taiKhoan.getMatKhau()));
+		return userService.createUser(taiKhoan);
+	}
+
+	@PostMapping("/login")
+	public TaiKhoan login(@RequestBody TaiKhoan taiKhoan) {
+
+		TaiKhoan taiKhoan2 = userService.findByTenDangNhap(taiKhoan.getTenDangNhap());
+
+		if (taiKhoan2 == null || !new BCryptPasswordEncoder().matches(taiKhoan.getMatKhau(), taiKhoan2.getMatKhau())) {
+
+			return null;
+		}
+
+		return taiKhoan2;
 	}
 
 	@GetMapping("/tai_khoan/{tenDangNhap}")

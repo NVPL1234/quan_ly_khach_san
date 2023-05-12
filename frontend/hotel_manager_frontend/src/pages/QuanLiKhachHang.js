@@ -114,7 +114,9 @@ export default function QuanLiKhachHang() {
         if (ktdiachi() && kttenkhachhang() && kTsdt() && kTso_cmnd()) {
             try {
                 let res1 = await axios.post('http://localhost:8080/tai_khoan', {
-                    maTK: maKH
+                    maTK: maKH, 
+                    tenDangNhap: sDT,
+                    matKhau: '12345678'
                 })
                 let taiKhoan = res1.data
                 if (maKH != taiKhoan.maTK)

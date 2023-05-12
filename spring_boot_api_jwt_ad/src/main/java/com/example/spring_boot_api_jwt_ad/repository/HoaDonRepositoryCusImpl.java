@@ -75,8 +75,8 @@ public class HoaDonRepositoryCusImpl implements HoaDonRepositoryCus{
 
 	@Override
 	@Transactional
-	public int capNhatHD(Long maHD, String ngayLapHD, String ngayNhanPhong, String ngayTraPhong, String loaiThue) {
-		Query query = entityManager.createNativeQuery("update hoa_don set loai_thue = N'" + loaiThue + "', ngay_lap_hd = '" + ngayLapHD + "', ngay_nhan_phong = '" + ngayNhanPhong + "', ngay_tra_phong = '" + ngayTraPhong + "' where ma_hd = " + maHD);
+	public int capNhatHD(Long maHD, double tienCoc) {
+		Query query = entityManager.createNativeQuery("update hoa_don set tien_coc = " + tienCoc + " where ma_hd = " + maHD);
 		return query.executeUpdate();
 	}
 

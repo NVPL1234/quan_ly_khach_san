@@ -155,32 +155,32 @@ export default function QuanLiDichVu() {
                         <div>
                             <form>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='ten_dv' className="form-label col-2">Nhập tên dịch vụ</label>
+                                    <label htmlFor='ten_dv' className="form-label col-4">Nhập tên dịch vụ</label>
                                     <input type='text' placeholder="Nhập tên dịch vụ" className="form-control col" id='ten_dv' value={tenDV} onChange={event => setTenDV(event.target.value)} onBlur={e => kttendichvu()} />
                                 </div>
                                 <div className="row" style={{ marginTop: '1%' }}>
                                     <p style={{ color: 'red' }} id='loiten_dich_vu'>*</p>
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='gia_dv' className="form-label col-2">Nhập giá dịch vụ</label>
+                                    <label htmlFor='gia_dv' className="form-label col-4">Nhập giá dịch vụ</label>
                                     <input type='number' className="form-control col" placeholder='Nhập giá dịch vụ' id='gia_dv' value={giaDV} onChange={event => setGiaDV(event.target.value)} onBlur={e => kTGiaDV()} />
                                 </div>
                                 <div className="row" style={{ marginTop: '1%' }}>
                                     <p style={{ color: 'red' }} id='loigia_dv'>*</p>
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='don_vi' className="form-label col-2">Nhập đơn vị</label>
+                                    <label htmlFor='don_vi' className="form-label col-4">Nhập đơn vị</label>
                                     <input type='text' placeholder="Nhập đơn vị" className="form-control col" id='don_vi' value={donVi} onChange={event => setDonVi(event.target.value)} />
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='so_luong' className="form-label col-2">Nhập số lượng</label>
+                                    <label htmlFor='so_luong' className="form-label col-4">Nhập số lượng</label>
                                     <input type='number' className="form-control col" placeholder='Nhập số lượng' id='so_luong' value={soLuong} onChange={event => setSoLuong(event.target.value)} onBlur={e => ktSoLuong()} />
                                 </div>
                                 <div className="row" style={{ marginTop: '1%' }}>
                                     <p style={{ color: 'red' }} id='loiso_luong'>*</p>
                                 </div>
                                 <div className="row" style={{ marginTop: '2%' }}>
-                                    <label htmlFor='loai_dich_vu' className="form-label col-2">Chọn loại dịch vụ</label>
+                                    <label htmlFor='loai_dich_vu' className="form-label col-4">Chọn loại dịch vụ</label>
                                     <select className="form-select col" value={maLoaiDV} onChange={event => setMaLoaiDV(event.target.value)}>
                                         {dsLoaiDV.map((loaiDV) => 
                                             <option key={loaiDV.maLoaiDV} value={loaiDV.maLoaiDV}>{loaiDV.ten}</option>

@@ -86,7 +86,7 @@ export default function QuanLiTang() {
                     <Modal.Body>
                         <form>
                             <div className="row">
-                                <label htmlFor='ten_tang' className="form-label col-2">Nhập tên tầng</label>
+                                <label htmlFor='ten_tang' className="form-label col-4">Nhập tên tầng</label>
                                 <input type='text' className="form-control col" placeholder='Nhập tên tầng' id='ten_tang' value={tenTang} onChange={event => setTenTang(event.target.value)} />
                             </div>
                             <input type='button' value='LƯU' className='btn btn-primary' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luu} />

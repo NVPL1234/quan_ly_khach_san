@@ -66,7 +66,7 @@ export default function Phong(props) {
                 <div className="col-12" key={phong.maPhong} style={{ marginTop: '1%', padding: '1%' }}>
                     <div className="row" style={{ backgroundColor: 'white', borderWidth: 1, borderColor: '#f5f0f5', borderRadius: 20, padding: '1%', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)' }}>
                         <div className="col" style={{ marginLeft: '1%' }}>
-                            <img src={phong.duongDanHinh} alt="" style={{ borderRadius: 30 }} />
+                            <img src={phong.duongDanHinh} alt="" style={{ borderRadius: 30 }} width='100%'/>
                         </div>
                         <div className="col" style={{ marginLeft: '1%', fontSize: 22, fontWeight: 'normal', fontFamily: '"Times New Roman", Times, serif' }}>
                             <span className="row">Loại phòng: {phong.loaiPhong.ten}</span>

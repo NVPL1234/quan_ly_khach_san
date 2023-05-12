@@ -117,7 +117,7 @@ export default function HoaDonKH() {
                             <th>Ngày nhận phòng</th>
                             <th>Ngày trả phòng</th>
                             <th>Loại thuê</th>
-                            <th>Nhân viên thu</th>
+                            <th>Nhân viên lập hoá đơn</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,7 +128,7 @@ export default function HoaDonKH() {
                                 <td>{moment(hd.ngayNhanPhong).format('YYYY-MM-DD HH:mm')}</td>
                                 <td>{moment(hd.ngayTraPhong).format('YYYY-MM-DD HH:mm')}</td>
                                 <td>{hd.loaiThue}</td>
-                                {hd.nhanVien != null ? <td>{hd.nhanVien.maNV}</td> : <td></td>}
+                                {hd.nhanVien != null ? <td>{hd.nhanVien.tenNV}</td> : <td></td>}
                             </tr>
                         )}
                     </tbody>

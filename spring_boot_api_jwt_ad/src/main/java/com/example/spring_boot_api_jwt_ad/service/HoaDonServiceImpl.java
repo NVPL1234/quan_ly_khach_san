@@ -62,8 +62,8 @@ public class HoaDonServiceImpl implements HoaDonService{
 	}
 
 	@Override
-	public int capNhatHD(Long maHD, String ngayLapHD, String ngayNhanPhong, String ngayTraPhong, String loaiThue) {
-		return hoaDonRepository.capNhatHD(maHD, ngayLapHD, ngayNhanPhong, ngayTraPhong, loaiThue);
+	public int capNhatHD(Long maHD, double tienCoc) {
+		return hoaDonRepository.capNhatHD(maHD, tienCoc);
 	}
 
 	@Override

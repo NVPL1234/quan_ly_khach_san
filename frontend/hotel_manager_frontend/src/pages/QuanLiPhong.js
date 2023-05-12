@@ -342,9 +342,6 @@ export default function QuanLiPhong() {
                                     )}
                                 </select>
                             </div>
-                            <div className="row" style={{ marginTop: '1%' }}>
-                                <p style={{ color: 'red' }} id='loimo_ta'>*</p>
-                            </div>
                             <div className="row" style={{ marginTop: '2%' }}>
                                 <label htmlFor='trang_thai' className="form-label col-4">Chọn trạng thái</label>
                                 <select className="form-select col" id='trang_thai' value={trangThai} onChange={event => setTrangThai(event.target.value)}>

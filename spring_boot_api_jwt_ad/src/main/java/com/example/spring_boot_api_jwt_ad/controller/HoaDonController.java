@@ -68,9 +68,9 @@ public class HoaDonController {
 		hoaDonService.capNhatTrangThai(maHD, trangThai);
 	}
 
-	@PutMapping("/orders/{maHD}/{ngayLapHD}/{ngayNhanPhong}/{ngayTraPhong}/{loaiThue}")
-	public int capNhatHD(@PathVariable Long maHD, @PathVariable String ngayLapHD, @PathVariable String ngayNhanPhong, @PathVariable String ngayTraPhong, @PathVariable String loaiThue) {
-		return hoaDonService.capNhatHD(maHD, ngayLapHD, ngayNhanPhong, ngayTraPhong, loaiThue);
+	@PutMapping("/orders/{maHD}/{tienCoc}")
+	public int capNhatHD(@PathVariable Long maHD, @PathVariable double tienCoc) {
+		return hoaDonService.capNhatHD(maHD, tienCoc);
 	}
 	
 	@DeleteMapping("/orders/{maHD}")

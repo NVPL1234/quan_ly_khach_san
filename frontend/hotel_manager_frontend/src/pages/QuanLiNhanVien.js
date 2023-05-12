@@ -99,7 +99,7 @@ export default function QuanLiNhanVien() {
                     res1 = await axios.post('http://localhost:8080/tai_khoan', {
                         maTK: maNV,
                         tenDangNhap: sDT,
-                        matKhau: matKhau,
+                        matKhau: '12345678',
                         quyen: {
                             maQuyen: parseInt(maQuyen)
                         }
@@ -209,16 +209,9 @@ export default function QuanLiNhanVien() {
 
     const kttenNV = () => {
         var ten_nv = document.getElementById("ten_nv").value;
-        var regtennv = /^[A-Za-z0-9_\.]{3,100}$/
-        if (regtennv.test(ten_nv) == '') {
+        if (ten_nv == '') {
             document.getElementById("loiten_nv").innerHTML = "Tên nhân viên không được để trống";
             return false;
-        }
-        else {
-            if (!regtennv.test(ten_nv)) {
-                document.getElementById("loiten_nv").innerHTML = "Tên nhân viên hàng phải từ 3 ký tự trở lên ";
-                return false;
-            }
         }
         document.getElementById('loiten_nv').innerHTML = '*';
         return true;
@@ -235,7 +228,7 @@ export default function QuanLiNhanVien() {
                     res1 = await axios.post('http://localhost:8080/tai_khoan', {
                         maTK: maNV,
                         tenDangNhap: sDT,
-                        matKhau: matKhau,
+                        matKhau: '12345678',
                         quyen: {
                             maQuyen: parseInt(maQuyen)
                         }

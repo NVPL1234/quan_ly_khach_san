@@ -146,7 +146,7 @@ export const HoaDon = React.forwardRef((props, ref) => {
   return (
     <div ref={ref} className="container" id="in_hoa_don" hidden>
       <div className="row">
-        <span style={{ textAlign: 'center' }}>KHÁCH SẠN LAM HẢI</span>
+        <span style={{ textAlign: 'center', fontSize: 22 }}>KHÁCH SẠN LAM HẢI</span>
         <span>Địa chỉ: 12 Nguyễn Văn Bảo P.4 Quận Gò Vấp TP.HCM</span>
         <span>Số điện thoại: 0906953700</span>
         <span>Email: nlam39784@gmail.com</span>

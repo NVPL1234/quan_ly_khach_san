@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { app, auth } from '../config'
 import axios from 'axios';
@@ -7,7 +8,10 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 
 export default function DangKy() {
 
+  const navigate = useNavigate()
+
   const [tenKH, setTenKH] = useState('')
+  const [gioiTinh, setGioiTinh] = useState('Nam')
   const [diaChi, setDiaChi] = useState('')
   const [soCMND, setSoCMND] = useState('')
   const [sDT, setSDT] = useState('')
@@ -87,13 +91,17 @@ export default function DangKy() {
   let luu = async () => {
     if (ktdiachi() && kttenkhachhang() && kTsdt() && kTso_cmnd()) {
       try {
-        let res = await axios.post('http://localhost:8080/register', {
+        let res = await axios.post('http://localhost:8080/tai_khoan', {
           tenDangNhap: sDT,
           matKhau: matKhau,
+          quyen: {
+            maQuyen: 3
+          }
         })
         let maTK = res.data.maTK
         await axios.post('http://localhost:8080/customers', {
           tenKH: tenKH,
+          gioiTinh: gioiTinh,
           diaChi: diaChi,
           soCMND: soCMND,
           sDT: sDT,
@@ -101,14 +109,7 @@ export default function DangKy() {
             maTK: maTK
           }
         })
-        await axios.post('http://localhost:8080/tk_quyen', {
-          taiKhoan: {
-            maTK: maTK
-          },
-          quyen: {
-            maQuyen: 1
-          }
-        })
+        navigate('/dang_nhap')
       } catch (error) {
         console.log(error.message);
       }
@@ -125,7 +126,7 @@ export default function DangKy() {
 
     const auth = getAuth();
 
-    let sdt = '+84' + sDT.slice(1,10)
+    let sdt = '+84' + sDT.slice(1, 10)
 
     signInWithPhoneNumber(auth, sdt, appVerifier)
       .then((confirmationResult) => {
@@ -159,31 +160,38 @@ export default function DangKy() {
   return (
     <div className="container-fluid" style={{ marginTop: '2%' }}>
       <h1 style={{ textAlign: 'center', fontWeight: 'bold' }}>ĐĂNG KÝ</h1>
-      <div>
-        <form action='#'>
+      <div className='row' style={{ marginLeft: '20%', marginRight: '20%', marginTop: '1%' }}>
+        <form>
           <div className="row">
-            <label htmlFor='ten_kh' className="form-label col-2">Nhập tên khách hàng</label>
+            <label htmlFor='ten_kh' className="form-label col-4">Nhập tên khách hàng</label>
             <input type='text' className="form-control col" id='ten_kh' placeholder="Nhập tên khách hàng" value={tenKH} onChange={event => setTenKH(event.target.value)} onBlur={e => { kttenkhachhang() }} />
           </div>
           <div className="row" style={{ marginTop: '1%' }}>
             <p style={{ color: 'red' }} id='loiten_kh'>*</p>
           </div>
+          <div className="row" style={{ marginTop: '1%' }}>
+            <label htmlFor='gioi_tinh' className="form-label col-4">Chọn giới tính</label>
+            <select className="form-select col" id='gioi_tinh' value={gioiTinh} onChange={event => setGioiTinh(event.target.value)}>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
+          </div>
           <div className="row" style={{ marginTop: '2%' }}>
-            <label htmlFor='dia_chi' className="form-label col-2">Nhập địa chỉ</label>
+            <label htmlFor='dia_chi' className="form-label col-4">Nhập địa chỉ</label>
             <input type='text' className="form-control col" placeholder='Nhập địa chỉ' id='dia_chi' value={diaChi} onChange={event => setDiaChi(event.target.value)} onBlur={e => { ktdiachi() }} />
           </div>
           <div className="row" style={{ marginTop: '1%' }}>
             <p style={{ color: 'red' }} id='loidia_chi'>*</p>
           </div>
           <div className="row" style={{ marginTop: '2%' }}>
-            <label htmlFor='so_cmnd' className="form-label col-2">Nhập số CMND/CCCD</label>
+            <label htmlFor='so_cmnd' className="form-label col-4">Nhập số CMND/CCCD</label>
             <input type='number' className="form-control col" placeholder='Nhập số CMND/CCCD' id='so_cmnd' value={soCMND} onChange={event => setSoCMND(event.target.value)} onBlur={e => { kTso_cmnd() }} />
           </div>
           <div className="row" style={{ marginTop: '1%' }}>
             <p style={{ color: 'red' }} id='loiso_cmnd'>*</p>
           </div>
           <div className="row" style={{ marginTop: '2%' }}>
-            <label htmlFor='sdt' className="form-label col-2">Nhập số điện thoại</label>
+            <label htmlFor='sdt' className="form-label col-4">Nhập số điện thoại</label>
             <input type='number' className="form-control col" id='sdt' placeholder="Nhập số điện thoại" value={sDT} onChange={event => setSDT(event.target.value)} onBlur={e => kTsdt()} />
           </div>
           <div id="sign-in-button"></div>
@@ -191,13 +199,17 @@ export default function DangKy() {
             <p style={{ color: 'red' }} id='loisdt'>*</p>
           </div>
 
-          <label for='mat-khau' className="form-label">Nhập mật khẩu</label>
-          <input type='password' className="form-control" placeholder='Nhập mật khẩu' id='mat-khau' name='mat-khau' onChange={event => setMatKhau(event.target.value)} />
+          <div className='row' style={{ marginTop: '1%' }}>
+            <label for='mat-khau' className="form-label col-4">Nhập mật khẩu</label>
+            <input type='password' className="form-control col" placeholder='Nhập mật khẩu' id='mat-khau' name='mat-khau' onChange={event => setMatKhau(event.target.value)} />
+          </div>
 
-          <label for='mat-khau-lap-lai' className="form-label">Nhập lại mật khẩu</label>
-          <input type='password' className="form-control" placeholder='Nhập mật khẩu' id='mat-khau-lap-lai' name='mat-khau-lap-lai' onChange={event => setMatKhauLapLai(event.target.value)} />
+          <div className='row' style={{ marginTop: '1%' }}>
+            <label for='mat-khau-lap-lai' className="form-label col-4">Nhập lại mật khẩu</label>
+            <input type='password' className="form-control col" placeholder='Nhập mật khẩu' id='mat-khau-lap-lai' name='mat-khau-lap-lai' onChange={event => setMatKhauLapLai(event.target.value)} />
+          </div>
 
-          <input type='button' value='ĐĂNG KÝ' className='btn btn-primary' style={{ marginLeft: '47%', marginTop: '5%' }} onClick={dangKy} />
+          <input type='button' value='ĐĂNG KÝ' className='btn btn-success' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={dangKy} />
         </form>
       </div>
     </div>

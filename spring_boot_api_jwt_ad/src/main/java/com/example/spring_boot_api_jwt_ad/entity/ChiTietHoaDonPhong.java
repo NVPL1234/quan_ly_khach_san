@@ -39,9 +39,6 @@ public class ChiTietHoaDonPhong {
 	@Column(name = "gia_theo_ngay", columnDefinition = "money CHECK (gia_theo_ngay >= 0)", nullable = false)
 	private double giaTheoNgay;
 
-	@Column(name = "gia_qua_dem", columnDefinition = "money CHECK (gia_qua_dem >= 0)", nullable = false)
-	private double giaQuaDem;
-    
 	public HoaDon getHoaDon() {
 		return hoaDon;
 	}
@@ -90,32 +87,22 @@ public class ChiTietHoaDonPhong {
 		this.giaTheoNgay = giaTheoNgay;
 	}
 
-	public double getGiaQuaDem() {
-		return giaQuaDem;
-	}
-
-	public void setGiaQuaDem(double giaQuaDem) {
-		this.giaQuaDem = giaQuaDem;
-	}
-
 	public ChiTietHoaDonPhong() {
     }
 
 	public ChiTietHoaDonPhong(HoaDon hoaDon, Phong phong, int gioDau, double giaGioDau, double giaGioTiepTheo,
-			double giaTheoNgay, double giaQuaDem) {
+			double giaTheoNgay) {
 		this.hoaDon = hoaDon;
 		this.phong = phong;
 		this.gioDau = gioDau;
 		this.giaGioDau = giaGioDau;
 		this.giaGioTiepTheo = giaGioTiepTheo;
 		this.giaTheoNgay = giaTheoNgay;
-		this.giaQuaDem = giaQuaDem;
 	}
 
 	@Override
 	public String toString() {
 		return "ChiTietHoaDonPhong [hoaDon=" + hoaDon + ", phong=" + phong + ", gioDau=" + gioDau + ", giaGioDau="
-				+ giaGioDau + ", giaGioTiepTheo=" + giaGioTiepTheo + ", giaTheoNgay=" + giaTheoNgay + ", giaQuaDem="
-				+ giaQuaDem + "]";
+				+ giaGioDau + ", giaGioTiepTheo=" + giaGioTiepTheo + ", giaTheoNgay=" + giaTheoNgay + "]";
 	}
 }

@@ -27,6 +27,11 @@ public class NhanVienController {
 		return nhanVienService.layDSNV();
 	}
 
+	@GetMapping("/employees/{maNV}")
+	public NhanVien layNVTheoMa(@PathVariable Long maNV){
+		return nhanVienService.layNVTheoMa(maNV);
+	}
+	
 	@PostMapping("/employees")
 	public NhanVien luu(@RequestBody NhanVien nhanVien) {
 		return nhanVienService.luu(nhanVien);
