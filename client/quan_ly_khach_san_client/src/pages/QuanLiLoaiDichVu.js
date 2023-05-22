@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Modal from 'react-bootstrap/Modal';
-import {GoSearch} from 'react-icons/go'
+import { GoSearch } from 'react-icons/go'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,6 +13,11 @@ export default function QuanLiLoaiDichVu() {
     const [taiLai, setTaiLai] = useState(true)
     const [dsLoaiDV, setDSLoaiDV] = useState([])
     const [hienModalLoaiDV, setHienModalLoaiDV] = useState(false)
+
+    const tim = () => {
+        axios.get('http://localhost:8080/service_categories/' + maLoaiDV)
+            .then((res) => setDSLoaiDV(res.data))
+    }
 
     const khoiPhucMacDinh = () => {
         setMaLoaiDV(0)
@@ -107,8 +112,8 @@ export default function QuanLiLoaiDichVu() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaLoaiDV(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -127,7 +132,7 @@ export default function QuanLiLoaiDichVu() {
                                 <td>{loaiDV.ten}</td>
                                 <td>
                                     <input type="button" className="btn btn-warning" value="CẬP NHẬT" onClick={e => capNhat(loaiDV)} /> | &nbsp;
-                                    <input type="button" className="btn btn-danger" value="XOÁ" onClick={e => xoa(loaiDV)}/>
+                                    <input type="button" className="btn btn-danger" value="XOÁ" onClick={e => xoa(loaiDV)} />
                                 </td>
                             </tr>
                         )}

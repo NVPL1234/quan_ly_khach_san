@@ -21,8 +21,7 @@ import org.hibernate.annotations.ColumnDefault;
 		name = "HoaDon_Phong",
 		entities = {
 		@EntityResult(entityClass = HoaDon.class),
-		@EntityResult(entityClass = Phong.class),
-		@EntityResult(entityClass = KhachHang.class)}
+		@EntityResult(entityClass = Phong.class)}
 )
 @SqlResultSetMapping(
 		name = "HoaDonDichVu_DichVu",

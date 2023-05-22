@@ -26,13 +26,18 @@ public class ChiTietHoaDonDichVu {
     @ManyToOne
     @JoinColumn(name = "ma_dv")
     private DichVu dichVu;
+    
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "ma_phong")
+    private Phong phong;
 
     @Column(name = "so_luong", columnDefinition = "int DEFAULT 1 CHECK (so_luong > 0)")
     private int soLuong = 1;
     
     @Column(name = "don_gia", columnDefinition = "money DEFAULT 0 CHECK (don_gia >= 0)")
     private double donGia = 0;
-    
+
 	public HoaDon getHoaDon() {
 		return hoaDon;
 	}
@@ -49,10 +54,18 @@ public class ChiTietHoaDonDichVu {
 		this.dichVu = dichVu;
 	}
 
+	public Phong getPhong() {
+		return phong;
+	}
+
+	public void setPhong(Phong phong) {
+		this.phong = phong;
+	}
+
 	public int getSoLuong() {
 		return soLuong;
 	}
-	
+
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
 	}
@@ -66,18 +79,19 @@ public class ChiTietHoaDonDichVu {
 	}
 
 	public ChiTietHoaDonDichVu() {
-    }
+	}
 
-	public ChiTietHoaDonDichVu(HoaDon hoaDon, DichVu dichVu, int soLuong, double donGia) {
+	public ChiTietHoaDonDichVu(HoaDon hoaDon, DichVu dichVu, Phong phong, int soLuong, double donGia) {
 		this.hoaDon = hoaDon;
 		this.dichVu = dichVu;
+		this.phong = phong;
 		this.soLuong = soLuong;
 		this.donGia = donGia;
 	}
 
 	@Override
 	public String toString() {
-		return "ChiTietHoaDonDichVu [hoaDon=" + hoaDon + ", dichVu=" + dichVu + ", soLuong=" + soLuong + ", donGia="
-				+ donGia + "]";
+		return "ChiTietHoaDonDichVu [hoaDon=" + hoaDon + ", dichVu=" + dichVu + ", phong=" + phong + ", soLuong="
+				+ soLuong + ", donGia=" + donGia + "]";
 	}
 }

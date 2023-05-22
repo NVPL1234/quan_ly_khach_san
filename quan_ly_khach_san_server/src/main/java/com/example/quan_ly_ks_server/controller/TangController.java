@@ -30,6 +30,11 @@ public class TangController {
 	public List<Tang> layDSTang() {
 		return tangService.layDSTang();
 	}
+	
+	@GetMapping("/floor/{maTang}")
+	public Tang layTangTheoMa(@PathVariable Long maTang) {
+		return tangService.layTangTheoMa(maTang);
+	}
 
 	@DeleteMapping("/floor/{maTang}")
 	public String xoa(@PathVariable Long maTang) {

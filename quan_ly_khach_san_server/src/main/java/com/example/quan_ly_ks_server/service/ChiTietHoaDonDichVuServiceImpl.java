@@ -25,18 +25,18 @@ public class ChiTietHoaDonDichVuServiceImpl implements ChiTietHoaDonDichVuServic
 	}
 
 	@Override
-	public void xoa(Long maHD, Long maDV) {
-		chiTietHoaDonDichVuRepository.xoa(maHD, maDV);
+	public void xoa(Long maHD, Long maDV, String maPhong) {
+		chiTietHoaDonDichVuRepository.xoa(maHD, maDV, maPhong);
 	}
 
 	@Override
-	public ChiTietHoaDonDichVu timCTHDDVTheo(Long maHD, Long maDV) {
-		return chiTietHoaDonDichVuRepository.timCTHDDVTheo(maHD, maDV);
+	public ChiTietHoaDonDichVu timCTHDDVTheo(Long maHD, Long maDV, String maPhong) {
+		return chiTietHoaDonDichVuRepository.timCTHDDVTheo(maHD, maDV, maPhong);
 	}
 	
 	@Override
 	public ChiTietHoaDonDichVu luu(ChiTietHoaDonDichVu chiTietHoaDonDichVu) {
-		ChiTietHoaDonDichVu chiTietHoaDonDichVu2 = timCTHDDVTheo(chiTietHoaDonDichVu.getHoaDon().getMaHD(), chiTietHoaDonDichVu.getDichVu().getMaDV());
+		ChiTietHoaDonDichVu chiTietHoaDonDichVu2 = timCTHDDVTheo(chiTietHoaDonDichVu.getHoaDon().getMaHD(), chiTietHoaDonDichVu.getDichVu().getMaDV(), chiTietHoaDonDichVu.getPhong().getMaPhong());
 		if(chiTietHoaDonDichVu2 == null)
 			return chiTietHoaDonDichVuRepository.luu(chiTietHoaDonDichVu);
 		else {
@@ -48,7 +48,12 @@ public class ChiTietHoaDonDichVuServiceImpl implements ChiTietHoaDonDichVuServic
 	}
 
 	@Override
-	public void capNhatSoLuong(Long maHD, Long maDV, int soLuong) {
-		chiTietHoaDonDichVuRepository.capNhatSoLuong(maHD, maDV, soLuong);
+	public void capNhatSoLuong(Long maHD, String maPhong, Long maDV, int soLuong) {
+		chiTietHoaDonDichVuRepository.capNhatSoLuong(maHD, maPhong, maDV, soLuong);
+	}
+
+	@Override
+	public List<ChiTietHoaDonDichVu> timCTHDDVTheo(Long maHD, String maPhong) {
+		return chiTietHoaDonDichVuRepository.timCTHDDVTheo(maHD, maPhong);
 	}
 }

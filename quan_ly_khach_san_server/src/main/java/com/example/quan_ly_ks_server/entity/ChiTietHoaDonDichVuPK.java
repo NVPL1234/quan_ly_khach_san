@@ -10,13 +10,14 @@ public class ChiTietHoaDonDichVuPK implements Serializable {
 
 	private Long hoaDon;
 	private Long dichVu;
-
+	private String phong;
+	
 	public ChiTietHoaDonDichVuPK() {
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dichVu, hoaDon);
+		return Objects.hash(dichVu, hoaDon, phong);
 	}
 
 	@Override
@@ -28,7 +29,8 @@ public class ChiTietHoaDonDichVuPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ChiTietHoaDonDichVuPK other = (ChiTietHoaDonDichVuPK) obj;
-		return Objects.equals(dichVu, other.dichVu) && Objects.equals(hoaDon, other.hoaDon);
+		return Objects.equals(dichVu, other.dichVu) && Objects.equals(hoaDon, other.hoaDon)
+				&& Objects.equals(phong, other.phong);
 	}
 
 }

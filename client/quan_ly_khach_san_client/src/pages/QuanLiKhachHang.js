@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-import {GoSearch} from 'react-icons/go'
+import { GoSearch } from 'react-icons/go'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -17,6 +17,11 @@ export default function QuanLiKhachHang() {
     const [taiLai, setTaiLai] = useState(true)
     const [dsKH, setDSKH] = useState([])
     const [hienModalKH, setHienModalKH] = useState(false)
+
+    const tim = () => {
+        axios.get('http://localhost:8080/customers/' + maKH)
+            .then((res) => setDSKH(res.data))
+    }
 
     const khoiPhucMacDinh = () => {
         setMaKH(0)
@@ -115,7 +120,7 @@ export default function QuanLiKhachHang() {
         if (ktdiachi() && kttenkhachhang() && kTsdt() && kTso_cmnd()) {
             try {
                 let res1 = await axios.post('http://localhost:8080/tai_khoan', {
-                    maTK: maKH, 
+                    maTK: maKH,
                     tenDangNhap: sDT,
                     matKhau: '12345678'
                 })
@@ -229,8 +234,8 @@ export default function QuanLiKhachHang() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaKH(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>

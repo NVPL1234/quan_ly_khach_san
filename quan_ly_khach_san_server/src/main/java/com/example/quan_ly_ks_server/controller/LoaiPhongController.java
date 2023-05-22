@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.quan_ly_ks_server.entity.LoaiDichVu;
 import com.example.quan_ly_ks_server.entity.LoaiPhong;
 import com.example.quan_ly_ks_server.service.LoaiPhongService;
 
@@ -30,6 +31,11 @@ public class LoaiPhongController {
 	public List<LoaiPhong> layDSLoaiPhong() {
 		return loaiPhongService.layDSLoaiPhong();
 	}
+	
+	@GetMapping("/room_categories/{maLoaiPhong}")
+    public LoaiPhong layLoaiPhongTheoMa(@PathVariable Long maLoaiPhong){
+        return loaiPhongService.layLoaiPhongTheoMa(maLoaiPhong);
+    }
 
 	@DeleteMapping("/room_categories/{maLoaiPhong}")
 	public String xoa(@PathVariable Long maLoaiPhong) {

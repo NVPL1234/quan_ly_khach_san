@@ -1,6 +1,7 @@
 package com.example.quan_ly_ks_server.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class LoaiDichVuServiceImpl implements LoaiDichVuService{
 	
 	@Override
 	public LoaiDichVu layLoaiDVTheoMa(Long maLoaiDV) {
-		return null;
+		Optional<LoaiDichVu> kq = loaiDichVuRepository.findById(maLoaiDV);
+		return kq.get();
 	}
 
 	@Override

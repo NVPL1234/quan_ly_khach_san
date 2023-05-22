@@ -30,6 +30,11 @@ public class ChucVuController {
     public List<ChucVu> layDSDV(){
         return chucVuService.layDSCV();
     }
+    
+    @GetMapping("/positions/{maCV}")
+    public ChucVu layCVTheoMa(@PathVariable Long maCV){
+        return chucVuService.layCVTheoMa(maCV);
+    }
 
     @DeleteMapping("/positions/{maCV}")
     public String xoa(@PathVariable Long maCV){

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useRef } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useReactToPrint } from 'react-to-print'
 import axios from 'axios'
 import moment from "moment";
+// import {BaoCaoDTNV} from "./BaoCaoDTNV";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "bootstrap/dist/js/bootstrap.bundle.js";
 
@@ -10,6 +12,8 @@ export default function BieuDoDoanhThuTuyChinh() {
     const [ngayDau, setNgayDau] = useState('')
     const [ngayCuoi, setNgayCuoi] = useState('')
     const [doanhThu, setDoanhThu] = useState([])
+    const [dshd, setDSHD] = useState([])
+    const componentRef = useRef()
 
     const tienPhong = (hd) => {
         if (hd[0].loaiThue == 'Thuê theo giờ') {
@@ -37,6 +41,7 @@ export default function BieuDoDoanhThuTuyChinh() {
     const layDoanhThuTuyChinh = async () => {
         try {
             let res = await axios.get('http://localhost:8080/orders/ngayDau/' + moment(ngayDau).format('YYYY-MM-DD HH:mm:ss') + '/ngayCuoi/' + moment(ngayCuoi).format('YYYY-MM-DD HH:mm:ss'))
+            setDSHD(res.data)
             let dshd = res.data
             let ngayLapHD = ''
             let tongTienPhong = 0
@@ -87,16 +92,30 @@ export default function BieuDoDoanhThuTuyChinh() {
         layDoanhThuTuyChinh()
     }
 
+    // const handlePrint = useReactToPrint({
+    //     onBeforeGetContent: () => {
+    //         document.getElementById('xuat-bao-cao').hidden = false
+    //     },
+    //     content: () => componentRef.current,
+    //     documentTitle: 'hoa_don',
+    //     onAfterPrint: () => {
+    //         document.getElementById('xuat-bao-cao').hidden = true
+    //         dongModalXacNhanIn()
+    //         dongModalCTHD()
+    //         setTaiLai(true)
+    //         alert('Đã thanh toán');
+    //     }
+    // })
+
     return (
         <div className="row" style={{ marginTop: '2%' }}>
             <div className="row">
-                <label htmlFor='ngay_dau' className="form-label col-2">Từ</label>
+                <label htmlFor='ngay_dau' className="form-label col">Từ</label>
                 <input type='datetime-local' className="form-control col" id='ngay_dau' value={ngayDau} onChange={e => setNgayDau(e.target.value)} />
-                <label htmlFor='ngay_cuoi' className="form-label col-2">Đến</label>
+                <label htmlFor='ngay_cuoi' className="form-label col">Đến</label>
                 <input type='datetime-local' className="form-control col" id='ngay_cuoi' value={ngayCuoi} onChange={e => setNgayCuoi(e.target.value)} />
-                <div className="row" style={{ marginTop: '2%' }}>
-                    <input type="button" className="btn btn-primary col-2" value='THỐNG KÊ' onClick={thongKe} style={{ marginLeft: '41%' }} />
-                </div>
+                <input type="button" className="btn btn-primary col" value='THỐNG KÊ' onClick={thongKe} style={{marginLeft: '1%'}}/>
+                <input type="button" className="btn btn-secondary col" value='XUẤT BÁO CÁO' onClick={thongKe} style={{marginLeft: '1%'}}/>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
                 <ResponsiveContainer width="100%" aspect={3}>
@@ -122,6 +141,7 @@ export default function BieuDoDoanhThuTuyChinh() {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
+            {/* <BaoCaoDTNV ref={componentRef} dshd={dshd}/> */}
         </div>
     )
 }

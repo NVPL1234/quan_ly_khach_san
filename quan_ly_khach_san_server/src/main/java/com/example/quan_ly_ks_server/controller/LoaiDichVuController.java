@@ -31,6 +31,11 @@ public class LoaiDichVuController {
         return loaiDichVuService.layDSLoaiDV();
     }
 
+    @GetMapping("/service_categories/{maLoaiDV}")
+    public LoaiDichVu layLoaiDVTheoMa(@PathVariable Long maLoaiDV){
+        return loaiDichVuService.layLoaiDVTheoMa(maLoaiDV);
+    }
+    
     @DeleteMapping("/service_categories/{maLoaiDV}")
     public String xoa(@PathVariable Long maLoaiDV){
         loaiDichVuService.xoa(maLoaiDV);

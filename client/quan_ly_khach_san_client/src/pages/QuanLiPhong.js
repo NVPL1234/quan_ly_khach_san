@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-import {GoSearch} from 'react-icons/go'
+import { GoSearch } from 'react-icons/go'
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import axios from 'axios'
 import Nav from "../component/Nav"
@@ -28,6 +28,11 @@ export default function QuanLiPhong() {
     const [dsLoaiPhong, setDSLoaiPhong] = useState([])
     const [dsTang, setDSTang] = useState([])
     const storage = getStorage();
+
+    const tim = () => {
+        axios.get('http://localhost:8080/rooms/' + maPhong)
+            .then((res) => setDSPhong(res.data))
+    }
 
     const khoiPhucMacDinh = () => {
         setMaPhong('')
@@ -411,8 +416,8 @@ export default function QuanLiPhong() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaPhong(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>

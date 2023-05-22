@@ -46,16 +46,16 @@ export default function BieuDoDoanhThuThang() {
             let doanhThu3ThangTam = []
             for (let i = 0; i < dshd.length; i++) {
                 if (ngayLapHD == '')
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                 if (moment(ngayLapHD).format('MM') != moment(dshd[i][0].ngayLapHD).format('MM')) {
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu3ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
                     })
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                     tongTienPhong = 0
                     tongTienDV = 0
                     tongTien = 0
@@ -66,7 +66,7 @@ export default function BieuDoDoanhThuThang() {
                         tongTienDV = tongTienDV + (dshd[i][2].soLuong * dshd[i][2].donGia)
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu3ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
@@ -95,16 +95,16 @@ export default function BieuDoDoanhThuThang() {
             let doanhThu6ThangTam = []
             for (let i = 0; i < dshd.length; i++) {
                 if (ngayLapHD == '')
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                 if (moment(ngayLapHD).format('MM') != moment(dshd[i][0].ngayLapHD).format('MM')) {
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu6ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
                     })
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                     tongTienPhong = 0
                     tongTienDV = 0
                     tongTien = 0
@@ -115,7 +115,7 @@ export default function BieuDoDoanhThuThang() {
                         tongTienDV = tongTienDV + (dshd[i][2].soLuong * dshd[i][2].donGia)
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu6ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
@@ -144,16 +144,16 @@ export default function BieuDoDoanhThuThang() {
             let doanhThu12ThangTam = []
             for (let i = 0; i < dshd.length; i++) {
                 if (ngayLapHD == '')
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                 if (moment(ngayLapHD).format('MM') != moment(dshd[i][0].ngayLapHD).format('MM')) {
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu12ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
                     })
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('MM-YYYY')
+                    ngayLapHD = moment(dshd[i][0].ngayLapHD)
                     tongTienPhong = 0
                     tongTienDV = 0
                     tongTien = 0
@@ -164,7 +164,7 @@ export default function BieuDoDoanhThuThang() {
                         tongTienDV = tongTienDV + (dshd[i][2].soLuong * dshd[i][2].donGia)
                     tongTien = tongTienPhong + tongTienDV
                     doanhThu12ThangTam.push({
-                        ngayLapHD: ngayLapHD,
+                        ngayLapHD: ngayLapHD.format('MM-YYYY'),
                         tongTienPhong: tongTienPhong,
                         tongTienDV: tongTienDV,
                         tongTien: tongTien

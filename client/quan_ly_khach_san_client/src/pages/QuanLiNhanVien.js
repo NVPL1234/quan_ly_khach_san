@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-import {GoSearch} from 'react-icons/go'
+import { GoSearch } from 'react-icons/go'
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import axios from 'axios'
 import Nav from "../component/Nav"
@@ -25,6 +25,11 @@ export default function QuanLiNhanVien() {
     const [dsCV, setDSCV] = useState([])
     const [maQuyen, setMaQuyen] = useState('1')
     const storage = getStorage();
+
+    const tim = () => {
+        axios.get('http://localhost:8080/employees/' + maNV)
+            .then((res) => setDSNV(res.data))
+    }
 
     const khoiPhucMacDinh = () => {
         setMaNV(0)
@@ -375,8 +380,8 @@ export default function QuanLiNhanVien() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaNV(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>

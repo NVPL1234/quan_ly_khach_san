@@ -25,7 +25,7 @@ public class ChiTietHoaDonDichVuRepositoryImpl implements ChiTietHoaDonDichVuRep
 	@Override
 	@Transactional
 	public List<ChiTietHoaDonDichVu> layDSCTHDDVTheoMa(Long maHD) {
-		Query query = entityManager.createQuery("from ChiTietHoaDonDichVu where ma_hd=:maHD");
+		Query query = entityManager.createQuery("from ChiTietHoaDonDichVu where ma_hd=:maHD order by ma_phong asc");
 		query.setParameter("maHD", maHD);
 		return query.getResultList();
 	}
@@ -38,16 +38,16 @@ public class ChiTietHoaDonDichVuRepositoryImpl implements ChiTietHoaDonDichVuRep
 
 	@Override
 	@Transactional
-	public void xoa(Long maHD, Long maDV) {
-		Query query = entityManager.createNativeQuery("delete from chi_tiet_hoa_don_dich_vu where ma_dv = " + maDV + " and ma_hd = " + maHD);
+	public void xoa(Long maHD, Long maDV, String maPhong) {
+		Query query = entityManager.createNativeQuery("delete from chi_tiet_hoa_don_dich_vu where ma_dv = " + maDV + " and ma_hd = " + maHD + " and ma_phong like '" + maPhong + "'");
 		query.executeUpdate();
 	}
 	
 	@Override
 	@Transactional
-	public ChiTietHoaDonDichVu timCTHDDVTheo(Long maHD, Long maDV) {
+	public ChiTietHoaDonDichVu timCTHDDVTheo(Long maHD, Long maDV, String maPhong) {
 		ChiTietHoaDonDichVu chiTietHoaDonDichVu = null;
-		Query query = entityManager.createNativeQuery("select * from chi_tiet_hoa_don_dich_vu where ma_hd = " + maHD + " and ma_dv = " + maDV, ChiTietHoaDonDichVu.class);
+		Query query = entityManager.createNativeQuery("select * from chi_tiet_hoa_don_dich_vu where ma_hd = " + maHD + " and ma_dv = " + maDV + " and ma_phong like '" + maPhong + "'", ChiTietHoaDonDichVu.class);
 		try {
 			chiTietHoaDonDichVu = (ChiTietHoaDonDichVu) query.getSingleResult();
 		} catch (NoResultException e) {
@@ -64,8 +64,15 @@ public class ChiTietHoaDonDichVuRepositoryImpl implements ChiTietHoaDonDichVuRep
 
 	@Override
 	@Transactional
-	public void capNhatSoLuong(Long maHD, Long maDV, int soLuong) {
-		Query query = entityManager.createNativeQuery("update chi_tiet_hoa_don_dich_vu set so_luong = " + soLuong + " where ma_hd = " + maHD + " and ma_dv = " + maDV);
+	public void capNhatSoLuong(Long maHD, String maPhong, Long maDV, int soLuong) {
+		Query query = entityManager.createNativeQuery("update chi_tiet_hoa_don_dich_vu set so_luong = " + soLuong + " where ma_hd = " + maHD + " and ma_phong like '" + maPhong + "' and ma_dv = " + maDV);
 		query.executeUpdate();
+	}
+
+	@Override
+	@Transactional
+	public List<ChiTietHoaDonDichVu> timCTHDDVTheo(Long maHD, String maPhong) {
+		Query query = entityManager.createNativeQuery("SELECT * FROM chi_tiet_hoa_don_dich_vu WHERE ma_hd = " + maHD + " AND ma_phong LIKE '" + maPhong + "'", ChiTietHoaDonDichVu.class);
+		return query.getResultList();
 	}
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
-import {GoSearch} from 'react-icons/go'
+import { GoSearch } from 'react-icons/go'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -18,6 +18,11 @@ export default function QuanLiDichVu() {
     const [dsDV, setDSDV] = useState([])
     const [hienModalDV, setHienModalDV] = useState(false)
     const [dsLoaiDV, setDSLoaiDV] = useState([])
+
+    const tim = () => {
+        axios.get('http://localhost:8080/services/' + maDV)
+            .then((res) => setDSDV(res.data))
+    }
 
     const khoiPhucMacDinh = () => {
         setMaDV(0)
@@ -146,7 +151,7 @@ export default function QuanLiDichVu() {
                 <Nav />
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
-                <input type="button" className='btn btn-primary col-2' value='THÊM DỊCH VỤ' onClick={moModalDV}/>
+                <input type="button" className='btn btn-primary col-2' value='THÊM DỊCH VỤ' onClick={moModalDV} />
 
                 <Modal show={hienModalDV} onHide={dongModalDV} size="lg">
                     <Modal.Header closeButton>
@@ -183,7 +188,7 @@ export default function QuanLiDichVu() {
                                 <div className="row" style={{ marginTop: '2%' }}>
                                     <label htmlFor='loai_dich_vu' className="form-label col-4">Chọn loại dịch vụ</label>
                                     <select className="form-select col" value={maLoaiDV} onChange={event => setMaLoaiDV(event.target.value)}>
-                                        {dsLoaiDV.map((loaiDV) => 
+                                        {dsLoaiDV.map((loaiDV) =>
                                             <option key={loaiDV.maLoaiDV} value={loaiDV.maLoaiDV}>{loaiDV.ten}</option>
                                         )}
                                     </select>
@@ -202,8 +207,8 @@ export default function QuanLiDichVu() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaDV(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>

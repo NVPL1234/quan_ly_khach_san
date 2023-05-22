@@ -71,10 +71,10 @@ public class PhongRepositoryCusImpl implements PhongRepositoryCus {
 	@Transactional
 	public List<Object> timMaPhongTheoTrangThai(String maPhong, String trangThai) {
 		if(maPhong.equals("-1")) {
-			Query query = entityManager.createNativeQuery("select * from hoa_don hd join chi_tiet_hoa_don_phong ct on hd.ma_hd = ct.ma_hd join phong p on ct.ma_phong = p.ma_phong join khach_hang kh on hd.ma_kh = kh.ma_kh where hd.trang_thai_hd like N'Đã nhận'", "HoaDon_Phong");
+			Query query = entityManager.createNativeQuery("select * from hoa_don hd join chi_tiet_hoa_don_phong ct on hd.ma_hd = ct.ma_hd join phong p on ct.ma_phong = p.ma_phong where hd.trang_thai_hd like N'Đã nhận'", "HoaDon_Phong");
 			return query.getResultList();
 		}
-		Query query = entityManager.createNativeQuery("select * from hoa_don hd join chi_tiet_hoa_don_phong ct on hd.ma_hd = ct.ma_hd join phong p on ct.ma_phong = p.ma_phong join khach_hang kh on hd.ma_kh = kh.ma_kh where p.ma_phong like '" + maPhong + "' and hd.trang_thai_hd like N'Đã nhận'", "HoaDon_Phong");
+		Query query = entityManager.createNativeQuery("select * from hoa_don hd join chi_tiet_hoa_don_phong ct on hd.ma_hd = ct.ma_hd join phong p on ct.ma_phong = p.ma_phong where p.ma_phong like '" + maPhong + "' and hd.trang_thai_hd like N'Đã nhận'", "HoaDon_Phong");
 		return query.getResultList();
 	}
 

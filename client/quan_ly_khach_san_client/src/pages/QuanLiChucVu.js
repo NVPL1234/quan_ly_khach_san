@@ -14,6 +14,11 @@ export default function QuanLiChucVu() {
     const [dsCV, setDSCV] = useState([])
     const [hienModalCV, setHienModalCV] = useState(false)
 
+    const tim = () => {
+        axios.get('http://localhost:8080/positions/' + maCV)
+            .then((res) => setDSCV(res.data))
+    }
+
     const khoiPhucMacDinh = () => {
         setMaCV(0)
         setTenCV('')
@@ -122,8 +127,8 @@ export default function QuanLiChucVu() {
             <div className="row" style={{ marginTop: '2%' }}>
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
-                    <input type='text' className="form-control" placeholder="Nhập mã" />
-                    <button className="btn btn-success" type="button"><GoSearch /></button>
+                    <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaCV(e.target.value)} />
+                    <button className="btn btn-success" type="button" onClick={e => tim}><GoSearch /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>

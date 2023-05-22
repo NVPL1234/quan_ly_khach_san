@@ -37,20 +37,20 @@ public class ChiTietHoaDonDichVuController {
 		return chiTietHoaDonDichVuService.layDSCTHDDVTheoMa(maHD);
 	}
 	
-	@GetMapping("/service_order_details/{maHD}/{maDV}")
-	public ChiTietHoaDonDichVu layCTHDDV(@PathVariable Long maHD, @PathVariable Long maDV) {
-		return chiTietHoaDonDichVuService.timCTHDDVTheo(maHD, maDV);
+	@GetMapping("/service_order_details/maHD/{maHD}/maPhong/{maPhong}")
+	public List<ChiTietHoaDonDichVu> timCTHDDVTheo(@PathVariable Long maHD, @PathVariable String maPhong){
+		return chiTietHoaDonDichVuService.timCTHDDVTheo(maHD, maPhong);
 	}
 
-	@DeleteMapping("/service_order_details/{maHD}/{maDV}")
-	public String xoa(@PathVariable Long maHD, @PathVariable Long maDV) {
-		chiTietHoaDonDichVuService.xoa(maHD, maDV);
+	@DeleteMapping("/service_order_details/{maHD}/{maDV}/{maPhong}")
+	public String xoa(@PathVariable Long maHD, @PathVariable Long maDV, @PathVariable String maPhong) {
+		chiTietHoaDonDichVuService.xoa(maHD, maDV, maPhong);
 		return "Đã xoá chi tiết hoá đơn dịch vụ " + maDV;
 	}
 	
-	@PutMapping("/service_order_details/{maHD}/{maDV}/{soLuong}")
-	public String capNhatSoLuong(@PathVariable Long maHD, @PathVariable Long maDV, @PathVariable int soLuong) {
-		chiTietHoaDonDichVuService.capNhatSoLuong(maHD, maDV, soLuong);
+	@PutMapping("/service_order_details/{maHD}/{maPhong}/{maDV}/{soLuong}")
+	public String capNhatSoLuong(@PathVariable Long maHD, @PathVariable String maPhong, @PathVariable Long maDV, @PathVariable int soLuong) {
+		chiTietHoaDonDichVuService.capNhatSoLuong(maHD, maPhong, maDV, soLuong);
 		return "Đã cập nhật";
 	}
 }

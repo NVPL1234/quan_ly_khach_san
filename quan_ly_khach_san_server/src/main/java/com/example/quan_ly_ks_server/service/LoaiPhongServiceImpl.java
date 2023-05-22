@@ -1,6 +1,7 @@
 package com.example.quan_ly_ks_server.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class LoaiPhongServiceImpl implements LoaiPhongService {
 
 	@Override
 	public LoaiPhong layLoaiPhongTheoMa(Long maLoaiPhong) {
-		return null;
+		Optional<LoaiPhong> kq = loaiPhongRepository.findById(maLoaiPhong);
+		return kq.get();
 	}
 
 	@Override
