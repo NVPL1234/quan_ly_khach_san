@@ -94,7 +94,7 @@ public class HoaDonRepositoryCusImpl implements HoaDonRepositoryCus{
 	@Override
 	@Transactional
 	public List<Object> timDSHDTheo(String ngayDau, String ngayCuoi) {
-		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don HD LEFT JOIN chi_tiet_hoa_don_phong CTP ON HD.ma_hd = CTP.ma_hd LEFT JOIN chi_tiet_hoa_don_dich_vu CTDV ON HD.ma_hd = CTDV.ma_hd WHERE HD.ngay_lap_hd BETWEEN '" + ngayDau + "' AND '" + ngayCuoi + "' ORDER BY HD.ngay_lap_hd", "HoaDon");
+		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don HD LEFT JOIN chi_tiet_hoa_don_phong CTP ON HD.ma_hd = CTP.ma_hd LEFT JOIN chi_tiet_hoa_don_dich_vu CTDV ON HD.ma_hd = CTDV.ma_hd WHERE HD.ngay_lap_hd BETWEEN '" + ngayDau + "' AND '" + ngayCuoi + "' ORDER BY HD.ngay_lap_hd, HD.ma_nv", "HoaDon");
 		return query.getResultList();
 	}
 }

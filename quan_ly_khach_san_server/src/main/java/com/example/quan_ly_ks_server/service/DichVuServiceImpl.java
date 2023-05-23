@@ -17,8 +17,14 @@ public class DichVuServiceImpl implements DichVuService{
 
 	@Override
 	public DichVu layDVTheoMa(Long maDV) {
+		DichVu dichVu = null;
 		Optional<DichVu> kq = dichVuRepository.findById(maDV);
-		return kq.get();
+		try {
+			dichVu = kq.get();
+			return dichVu;
+		} catch (Exception e) {
+			return dichVu;
+		}
 	}
 
 	@Override

@@ -13,23 +13,57 @@ export const HoaDon = React.forwardRef((props, ref) => {
   const [tongTien, setTongTien] = useState(0)
   let nv = props.nv
 
-  const tinhThanhTien = (phong) => {
+  const tinhGioThue = (ngayNhanPhong, ngayTraPhong, gioDau) => {
+    let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+    if (tongGioThue == 0 || tongGioThue < gioDau)
+      return gioDau
+    else {
+      let tongPhutThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'minutes')
+      let phutThue = tongGioThue * 60
+      let phutLe = tongPhutThue - phutThue
+      if (phutLe >= 30) {
+        return tongGioThue + 1
+      }
+      else {
+        return tongGioThue
+      }
+    }
+  }
+
+  const tinhNgayThue = (ngayNhanPhong, ngayTraPhong) => {
+    let tongNgayThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'days')
+    if (tongNgayThue == 0)
+      return 1
+    else {
+      let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+      let gioThue = tongNgayThue * 24
+      let gioLe = tongGioThue - gioThue
+      if (gioLe >= 12) {
+        return tongNgayThue + 1
+      }
+      else {
+        return tongNgayThue
+      }
+    }
+  }
+
+  const tinhThanhTien = (cthdp) => {
     if (donDat.loaiThue == 'Thuê theo giờ') {
-      let soGioThue = moment(ngayTraPhong).diff(moment(donDat.ngayNhanPhong), 'hours')
-      let gioDau = phong.gioDau
+      let soGioThue = tinhGioThue(donDat.ngayNhanPhong, ngayTraPhong, cthdp.gioDau)
+      let gioDau = cthdp.gioDau
       let gioTiepTheo = soGioThue - gioDau
       if (soGioThue > gioDau) {
-        let thanhTienGioDau = phong.giaGioDau
-        let thanhTienGioTiepTheo = gioTiepTheo * phong.giaGioTiepTheo
+        let thanhTienGioDau = cthdp.giaGioDau
+        let thanhTienGioTiepTheo = gioTiepTheo * cthdp.giaGioTiepTheo
         return thanhTienGioDau + thanhTienGioTiepTheo
       }
       else {
-        return phong.giaGioDau
+        return cthdp.giaGioDau
       }
     }
     else if (donDat.loaiThue == 'Thuê theo ngày') {
-      let soNgayThue = moment(ngayTraPhong).diff(moment(donDat.ngayNhanPhong), 'days')
-      return 1 * phong.giaTheoNgay
+      let soNgayThue = tinhNgayThue(donDat.ngayNhanPhong, ngayTraPhong)
+      return soNgayThue * cthdp.giaTheoNgay
     }
   }
 
@@ -42,7 +76,7 @@ export const HoaDon = React.forwardRef((props, ref) => {
       tongTienTam = tongTienTam + (dscthddv[i].donGia * dscthddv[i].soLuong)
     }
     setTongTien(tongTienTam - donDat.tienCoc)
-  }, [])
+  }, [donDat, dscthdp, dscthddv])
 
   return (
     <div ref={ref} className="container" id="in_hoa_don" hidden>
@@ -67,6 +101,9 @@ export const HoaDon = React.forwardRef((props, ref) => {
         <span className="col">Số điện thoại: {donDat.khachHang.sDT}</span>
       </div>
       <div className="row" style={{ marginTop: '1%' }}>
+        <span className="col">Tên nhân viên thu: {nv.tenNV}</span>
+      </div>
+      <div className="row" style={{ marginTop: '1%' }}>
         <h4>PHÒNG</h4>
       </div>
       <div className="row" style={{ marginTop: '1%' }}>
@@ -87,13 +124,13 @@ export const HoaDon = React.forwardRef((props, ref) => {
             {dscthdp.map((cthdp, i) =>
               <tr key={i}>
                 <td>{cthdp.phong.maPhong}</td>
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.phong.gioDau}</td>}
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.phong.giaGioDau}</td>}
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.phong.giaGioTiepTheo}</td>}
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{moment(ngayTraPhong).diff(moment(donDat.ngayNhanPhong), 'hours')}</td>}
-                {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.phong.giaTheoNgay}</td>}
-                {donDat.loaiThue == 'Thuê theo ngày' && <td>1</td>}
-                <td>{tinhThanhTien(cthdp.phong)}</td>
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.gioDau}</td>}
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau}</td>}
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo}</td>}
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{tinhGioThue(donDat.ngayNhanPhong, ngayTraPhong, cthdp.gioDau)}</td>}
+                {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay}</td>}
+                {donDat.loaiThue == 'Thuê theo ngày' && <td>{tinhNgayThue(donDat.ngayNhanPhong, ngayTraPhong)}</td>}
+                <td>{tinhThanhTien(cthdp)}</td>
               </tr>
             )}
           </tbody>
@@ -133,6 +170,9 @@ export const HoaDon = React.forwardRef((props, ref) => {
       </div>
       <div className='row' style={{ marginTop: '2%' }}>
         <h5>TỔNG TIỀN THANH TOÁN: <h5>{tongTien} đ</h5></h5>
+      </div>
+      <div className='row' style={{ marginTop: '2%', textAlign: 'center' }}>
+        <h5>---TRÂN TRỌNG CẢM ƠN QUÝ KHÁCH!---</h5>
       </div>
     </div>
   );

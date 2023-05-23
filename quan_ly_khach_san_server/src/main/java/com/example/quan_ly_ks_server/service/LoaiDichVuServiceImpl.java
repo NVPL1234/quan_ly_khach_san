@@ -17,8 +17,14 @@ public class LoaiDichVuServiceImpl implements LoaiDichVuService{
 	
 	@Override
 	public LoaiDichVu layLoaiDVTheoMa(Long maLoaiDV) {
+		LoaiDichVu loaiDichVu = null;
 		Optional<LoaiDichVu> kq = loaiDichVuRepository.findById(maLoaiDV);
-		return kq.get();
+		try {
+			loaiDichVu = kq.get();
+			return loaiDichVu;
+		} catch (Exception e) {
+			return loaiDichVu;
+		}
 	}
 
 	@Override

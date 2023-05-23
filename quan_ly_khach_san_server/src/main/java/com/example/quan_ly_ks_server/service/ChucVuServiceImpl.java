@@ -17,8 +17,14 @@ public class ChucVuServiceImpl implements ChucVuService{
 
     @Override
     public ChucVu layCVTheoMa(Long maCV) {
+    	ChucVu chucVu = null;
     	Optional<ChucVu> kq = chucVuRepository.findById(maCV);
-        return kq.get();
+    	try {
+    		chucVu = kq.get();
+    		return chucVu;
+		} catch (Exception e) {
+			return chucVu;
+		}
     }
 
     @Override

@@ -22,8 +22,14 @@ public class KhachHangServiceImpl implements KhachHangService {
 	
 	@Override
 	public KhachHang layKHTheoMa(Long maKH) {
+		KhachHang khachHang = null;
 		Optional<KhachHang> kq = khachHangRepository.findById(maKH);
-		return kq.get();
+		try {
+			khachHang = kq.get();
+			return khachHang;
+		} catch (Exception e) {
+			return khachHang;
+		}
 	}
 
 	@Override

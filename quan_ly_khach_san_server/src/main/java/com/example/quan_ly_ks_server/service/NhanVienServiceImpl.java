@@ -22,8 +22,14 @@ public class NhanVienServiceImpl implements NhanVienService {
 	
 	@Override
 	public NhanVien layNVTheoMa(Long maNV) {
+		NhanVien nhanVien = null;
 		Optional<NhanVien> kq = nhanVienRepository.findById(maNV);
-		return kq.get();
+		try {
+			nhanVien = kq.get();
+			return nhanVien;
+		} catch (Exception e) {
+			return nhanVien;
+		}
 	}
 
 	@Override

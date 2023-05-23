@@ -17,8 +17,14 @@ public class TangServiceImpl implements TangService{
 	
 	@Override
 	public Tang layTangTheoMa(Long maTang) {
+		Tang tang = null;
 		Optional<Tang> kq = tangRepository.findById(maTang);
-		return kq.get();
+		try {
+			tang = kq.get();
+			return tang;
+		} catch (Exception e) {
+			return tang;
+		}
 	}
 
 	@Override

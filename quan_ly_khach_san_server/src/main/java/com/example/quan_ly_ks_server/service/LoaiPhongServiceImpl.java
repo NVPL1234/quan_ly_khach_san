@@ -17,8 +17,14 @@ public class LoaiPhongServiceImpl implements LoaiPhongService {
 
 	@Override
 	public LoaiPhong layLoaiPhongTheoMa(Long maLoaiPhong) {
+		LoaiPhong loaiPhong = null;
 		Optional<LoaiPhong> kq = loaiPhongRepository.findById(maLoaiPhong);
-		return kq.get();
+		try {
+			loaiPhong = kq.get();
+			return loaiPhong;
+		} catch (Exception e) {
+			return loaiPhong;
+		}
 	}
 
 	@Override

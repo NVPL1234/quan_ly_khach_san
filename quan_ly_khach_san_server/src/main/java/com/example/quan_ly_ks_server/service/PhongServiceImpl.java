@@ -17,8 +17,14 @@ public class PhongServiceImpl implements PhongService {
 
 	@Override
 	public Phong layPhongTheoMa(String maPhong) {
+		Phong phong = null;
 		Optional<Phong> kq = phongRepository.findById(maPhong);
-		return kq.get();
+		try {
+			phong = kq.get();
+			return phong;
+		} catch (Exception e) {
+			return phong;
+		}
 	}
 
 	@Override

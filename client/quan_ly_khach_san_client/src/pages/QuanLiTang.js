@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,8 +16,15 @@ export default function QuanLiTang() {
     const [hienModalTang, setHienModalTang] = useState(false)
 
     const tim = () => {
+        setDSTang([])
         axios.get('http://localhost:8080/floor/' + maTang)
-            .then((res) => setDSTang(res.data))
+            .then((res) => {
+                let tang = res.data
+                if (tang != '')
+                    setDSTang(tangCu => [...tangCu, tang])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -110,6 +118,7 @@ export default function QuanLiTang() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaTang(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -123,7 +132,7 @@ export default function QuanLiTang() {
                     </thead>
                     <tbody>
                         {
-                            dsTang.map((tang) =>
+                            dsTang.length > 0 && dsTang.map((tang) =>
                                 <tr key={tang.maTang}>
                                     <td>{tang.maTang}</td>
                                     <td>{tang.tenTang}</td>

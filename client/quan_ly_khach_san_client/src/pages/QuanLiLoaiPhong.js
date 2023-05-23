@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { FcCheckmark } from 'react-icons/fc'
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -17,8 +18,15 @@ export default function QuanLiLoaiPhong() {
     const [hienModalTBThanhCong, setHienModalTBThanhCong] = useState(false)
 
     const tim = () => {
+        setDSLoaiPhong([])
         axios.get('http://localhost:8080/room_categories/' + maLoaiPhong)
-            .then((res) => setDSLoaiPhong(res.data))
+            .then((res) => {
+                let loaiPhong = res.data
+                if (loaiPhong != '')
+                    setDSLoaiPhong(loaiPhongCu => [...loaiPhongCu, loaiPhong])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const moModalTBThanhCong = () => setHienModalTBThanhCong(true)
@@ -131,6 +139,7 @@ export default function QuanLiLoaiPhong() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaLoaiPhong(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -143,7 +152,7 @@ export default function QuanLiLoaiPhong() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsLoaiPhong.map((loaiPhong) =>
+                        {dsLoaiPhong.length > 0 && dsLoaiPhong.map((loaiPhong) =>
                             <tr key={loaiPhong.maLoaiPhong}>
                                 <td>{loaiPhong.maLoaiPhong}</td>
                                 <td>{loaiPhong.ten}</td>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,8 +16,15 @@ export default function QuanLiChucVu() {
     const [hienModalCV, setHienModalCV] = useState(false)
 
     const tim = () => {
+        setDSCV([])
         axios.get('http://localhost:8080/positions/' + maCV)
-            .then((res) => setDSCV(res.data))
+            .then((res) => {
+                let cv = res.data
+                if (cv != '')
+                    setDSCV(cvCu => [...cvCu, cv])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -128,7 +136,8 @@ export default function QuanLiChucVu() {
                 <div className="col input-group">
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaCV(e.target.value)} />
-                    <button className="btn btn-success" type="button" onClick={e => tim}><GoSearch /></button>
+                    <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button type="button" className="btn btn-warning" onClick={e => setTaiLai(true)}><FiRefreshCw/></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -141,7 +150,7 @@ export default function QuanLiChucVu() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsCV.map((cv) =>
+                        {dsCV.length > 0 && dsCV.map((cv) =>
                             <tr key={cv.maCV}>
                                 <td>{cv.maCV}</td>
                                 <td>{cv.tenCV}</td>

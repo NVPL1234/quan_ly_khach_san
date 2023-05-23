@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import axios from 'axios'
 import Nav from "../component/Nav"
@@ -30,8 +31,15 @@ export default function QuanLiPhong() {
     const storage = getStorage();
 
     const tim = () => {
+        setDSPhong([])
         axios.get('http://localhost:8080/rooms/' + maPhong)
-            .then((res) => setDSPhong(res.data))
+            .then((res) => {
+                let phong = res.data
+                if (phong != '')
+                    setDSPhong(phongCu => [...phongCu, phong])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -418,6 +426,7 @@ export default function QuanLiPhong() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaPhong(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -439,7 +448,7 @@ export default function QuanLiPhong() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsPhong.map((phong) =>
+                        {dsPhong.length > 0 && dsPhong.map((phong) =>
                             <tr key={phong.maPhong}>
                                 <td>{phong.maPhong}</td>
                                 <td style={{ width: '24%' }}><img src={phong.duongDanHinh} alt="" width='100%' height='100%' /></td>

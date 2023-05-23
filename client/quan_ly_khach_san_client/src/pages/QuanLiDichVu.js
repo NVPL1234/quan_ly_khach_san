@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -20,8 +21,15 @@ export default function QuanLiDichVu() {
     const [dsLoaiDV, setDSLoaiDV] = useState([])
 
     const tim = () => {
-        axios.get('http://localhost:8080/services/' + maDV)
-            .then((res) => setDSDV(res.data))
+        setDSDV([])
+        axios.get('http://localhost:8080/services/maDV/' + maDV)
+            .then((res) => {
+                let dv = res.data
+                if (dv != '')
+                    setDSDV(dvCu => [...dvCu, dv])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -209,6 +217,7 @@ export default function QuanLiDichVu() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaDV(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -225,7 +234,7 @@ export default function QuanLiDichVu() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsDV.map((dv) =>
+                        {dsDV.length > 0 && dsDV.map((dv) =>
                             <tr key={dv.maDV}>
                                 <td>{dv.maDV}</td>
                                 <td>{dv.tenDV}</td>

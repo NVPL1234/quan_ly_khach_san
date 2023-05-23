@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import axios from 'axios'
 import Nav from "../component/Nav"
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -15,8 +16,15 @@ export default function QuanLiLoaiDichVu() {
     const [hienModalLoaiDV, setHienModalLoaiDV] = useState(false)
 
     const tim = () => {
+        setDSLoaiDV([])
         axios.get('http://localhost:8080/service_categories/' + maLoaiDV)
-            .then((res) => setDSLoaiDV(res.data))
+            .then((res) => {
+                let loaiDV = res.data
+                if (loaiDV != '')
+                    setDSLoaiDV(loaiDVCu => [...loaiDVCu, loaiDV])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -114,6 +122,7 @@ export default function QuanLiLoaiDichVu() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaLoaiDV(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -126,7 +135,7 @@ export default function QuanLiLoaiDichVu() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsLoaiDV.map((loaiDV) =>
+                        {dsLoaiDV.length > 0 && dsLoaiDV.map((loaiDV) =>
                             <tr key={loaiDV.maLoaiDV}>
                                 <td>{loaiDV.maLoaiDV}</td>
                                 <td>{loaiDV.ten}</td>

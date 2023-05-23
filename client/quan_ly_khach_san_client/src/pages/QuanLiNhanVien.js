@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Modal from 'react-bootstrap/Modal';
 import { GoSearch } from 'react-icons/go'
+import { FiRefreshCw } from 'react-icons/fi'
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import axios from 'axios'
 import Nav from "../component/Nav"
@@ -27,8 +28,15 @@ export default function QuanLiNhanVien() {
     const storage = getStorage();
 
     const tim = () => {
+        setDSNV([])
         axios.get('http://localhost:8080/employees/' + maNV)
-            .then((res) => setDSNV(res.data))
+            .then((res) => {
+                let nv = res.data
+                if (nv != '')
+                    setDSNV(nvCu => [...nvCu, nv])
+                else
+                    alert('Không tìm thấy!')
+            })
     }
 
     const khoiPhucMacDinh = () => {
@@ -382,6 +390,7 @@ export default function QuanLiNhanVien() {
                     <span className="input-group-text">Nhập mã</span>
                     <input type='text' className="form-control" placeholder="Nhập mã" onChange={e => setMaNV(e.target.value)} />
                     <button className="btn btn-success" type="button" onClick={tim}><GoSearch /></button>
+                    <button className="btn btn-warning" type="button" onClick={e => setTaiLai(true)}><FiRefreshCw /></button>
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
@@ -400,7 +409,7 @@ export default function QuanLiNhanVien() {
                         </tr>
                     </thead>
                     <tbody>
-                        {dsNV.map((nv) =>
+                        {dsNV.length > 0 && dsNV.map((nv) =>
                             <tr key={nv.maNV}>
                                 <td style={{ width: '10%' }}><img src={nv.duongDanHinh} width='100%' height='100%' /></td>
                                 <td>{nv.maNV}</td>
