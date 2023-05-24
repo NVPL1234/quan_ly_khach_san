@@ -36,7 +36,6 @@ export default function DatPhong() {
     const [hienModalCTHD, setHienModalCTHD] = useState(false)
     const [hienModalDatPhong, setHienModalDatPhong] = useState(false)
     const [hienModalThemKH, setHienModalThemKH] = useState(false)
-    const [hienModalCapNhat, setHienModalCapNhat] = useState(false)
     const [hienModalThemPhong, setHienModalThemPhong] = useState(false)
     const [tongTien, setTongTien] = useState(0)
     const [taiLai, setTaiLai] = useState(true)
@@ -66,24 +65,6 @@ export default function DatPhong() {
         }
         else {
 
-        }
-    }
-
-    const dongModalCapNhat = () => setHienModalCapNhat(false);
-
-    const moModalCapNhat = (dd) => {
-        setDD(dd)
-        setHienModalCapNhat(true)
-    }
-
-    const capNhatHD = async () => {
-        try {
-            await axios.put('http://localhost:8080/orders/' + donDat.maHD + '/' + tienCoc)
-            setTaiLai(true)
-            alert('Đã cập nhật!')
-        }
-        catch (error) {
-            console.log(error.message);
         }
     }
 
@@ -128,6 +109,7 @@ export default function DatPhong() {
         setDSPhongDat([])
         setDSPhong([])
         setTongTien(0)
+        setTienCoc(0)
         setMaKH('')
         setHienModalDatPhong(false);
         setTaiLai(true)
@@ -181,16 +163,19 @@ export default function DatPhong() {
                     let thanhTienGioTiepTheo = gioTiepTheo * p.giaGioTiepTheo
                     let thanhTien = thanhTienGioDau + thanhTienGioTiepTheo
                     setTongTien(tongTien + thanhTien)
+                    setTienCoc((tongTien + thanhTien) * (50/100))
                 }
                 else {
                     let thanhTien = p.giaGioDau
                     setTongTien(tongTien + thanhTien)
+                    setTienCoc((tongTien + thanhTien) * (50/100))
                 }
             }
             else if (loaiThue == 'Thuê theo ngày') {
                 let soNgayThue = moment(ngayTra).diff(moment(ngayNhan), 'days')
                 let thanhTien = soNgayThue * p.giaTheoNgay
                 setTongTien(tongTien + thanhTien)
+                setTienCoc((tongTien + thanhTien) * (50/100))
             }
         }
         else {
@@ -205,16 +190,19 @@ export default function DatPhong() {
                     let thanhTienGioTiepTheo = gioTiepTheo * p.giaGioTiepTheo
                     let thanhTien = thanhTienGioDau + thanhTienGioTiepTheo
                     setTongTien(tongTien - thanhTien)
+                    setTienCoc((tongTien - thanhTien) * (50/100))
                 }
                 else {
                     let thanhTien = p.giaGioDau
                     setTongTien(tongTien - thanhTien)
+                    setTienCoc((tongTien - thanhTien) * (50/100))
                 }
             }
             else if (loaiThue == 'Thuê theo ngày') {
                 let soNgayThue = moment(ngayTra).diff(moment(ngayNhan), 'days')
                 let thanhTien = soNgayThue * p.giaTheoNgay
                 setTongTien(tongTien - thanhTien)
+                setTienCoc((tongTien - thanhTien) * (50/100))
             }
         }
     }
@@ -229,6 +217,7 @@ export default function DatPhong() {
                 ngayNhanPhong: moment(ngayNhan).format(),
                 loaiThue: loaiThue,
                 trangThaiHD: trangThai,
+                tienCoc: tienCoc,
                 khachHang: { 'maKH': maKHf },
                 nhanVien: { 'maNV': maNV }
             })
@@ -397,6 +386,10 @@ export default function DatPhong() {
                                                 </Modal.Body>
                                             </Modal>
                                         </div>
+                                        <div className="row" style={{ marginTop: '1%' }}>
+                                            <label htmlFor='tien-coc' className="form-label">Nhập tiền cọc</label>
+                                            <input type='number' className="form-control" placeholder='Nhập tiền cọc' id='tien-coc' value={tienCoc} onChange={event => setTienCoc(event.target.value)} />
+                                        </div>
                                         <div style={{ marginTop: '5%' }} className='row'>
                                             <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
                                         </div>
@@ -414,8 +407,6 @@ export default function DatPhong() {
                         <table className="table table-hover">
                             <thead className="table-info">
                                 <tr>
-                                    {/* <th>Mã hoá đơn phòng</th> */}
-                                    {/* <th>Ngày lập hoá đơn</th> */}
                                     <th>Ngày nhận phòng</th>
                                     <th>Ngày trả phòng</th>
                                     <th>Tiền cọc</th>
@@ -431,38 +422,14 @@ export default function DatPhong() {
                                         <td>{dd.tienCoc}</td>
                                         <td>{dd.khachHang.tenKH}</td>
                                         <td>
-                                            <input type="button" className="btn btn-primary" value="XEM CHI TIẾT" onClick={e => xemCT(dd)} /> | &nbsp;
-                                            <input type="button" className="btn btn-warning" value="CẬP NHẬT" onClick={e => moModalCapNhat(dd)} /> | &nbsp;
-                                            <input type="button" className="btn btn-danger" value="XOÁ" onClick={e => xoaDonDat(dd)} />
+                                            <input type="button" className="btn btn-primary" value="XEM CHI TIẾT" onClick={e => xemCT(dd)} /> | &nbsp;                                            
+                                            <input type="button" className="btn btn-danger" value="HUỶ ĐẶT PHÒNG" onClick={e => xoaDonDat(dd)} />
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
-                    </div>
-                    <Modal show={hienModalCapNhat} onHide={dongModalCapNhat} size="lg">
-                        <Modal.Header closeButton>
-                            <Modal.Title>HOÁ ĐƠN</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <form>
-                                <div className="row" style={{ marginTop: '2%' }}>
-                                    <div className="row">
-                                        <label htmlFor='tien-coc' className="form-label col-5">Nhập tiền cọc</label>
-                                        <input type='number' className="form-control col" placeholder='Nhập tiền cọc' id='tien-coc' value={tienCoc} onChange={event => setTienCoc(event.target.value)} />
-                                    </div>
-                                    <div className="row" style={{ marginTop: '5%' }}>
-                                        <input type='button' className="btn btn-success col" value='CẬP NHẬT' onClick={capNhatHD} />
-                                    </div>
-                                </div>
-                            </form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <button type='button' className="btn btn-danger" onClick={dongModalCapNhat}>
-                                Đóng
-                            </button>
-                        </Modal.Footer>
-                    </Modal>
+                    </div>    
                     <Modal show={hienModalCTHD} onHide={dongModalCTHD} size="lg">
                         <Modal.Header closeButton>
                             <Modal.Title>PHÒNG</Modal.Title>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useReactToPrint } from 'react-to-print'
 import axios from 'axios'
@@ -14,12 +14,47 @@ export default function BieuDoDoanhThuTuyChinh() {
     const [doanhThu, setDoanhThu] = useState([])
     const [dshd, setDSHD] = useState([])
     const [anBaoCao, setAnBaoCao] = useState(true)
+    const [nv, setNV] = useState(null)
     const componentRef = useRef()
+
+    const tinhGioThue = (ngayNhanPhong, ngayTraPhong, gioDau) => {
+        let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+        if (tongGioThue == 0 || tongGioThue < gioDau)
+            return gioDau
+        else {
+            let tongPhutThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'minutes')
+            let phutThue = tongGioThue * 60
+            let phutLe = tongPhutThue - phutThue
+            if (phutLe >= 30) {
+                return tongGioThue + 1
+            }
+            else {
+                return tongGioThue
+            }
+        }
+    }
+
+    const tinhNgayThue = (ngayNhanPhong, ngayTraPhong) => {
+        let tongNgayThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'days')
+        if (tongNgayThue == 0)
+            return 1
+        else {
+            let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+            let gioThue = tongNgayThue * 24
+            let gioLe = tongGioThue - gioThue
+            if (gioLe >= 12) {
+                return tongNgayThue + 1
+            }
+            else {
+                return tongNgayThue
+            }
+        }
+    }
 
     const tienPhong = (hd) => {
         if (hd[0].loaiThue == 'Thuê theo giờ') {
             let gioDau = hd[1].gioDau
-            let soGioThue = moment(hd[0].ngayTraPhong).diff(moment(hd[0].ngayNhanPhong), 'hours')
+            let soGioThue = tinhGioThue(hd[0].ngayNhanPhong, hd[0].ngayTraPhong, hd[1].gioDau)
             let soGioTiepTheo = soGioThue - gioDau
             let tienGioDau = hd[1].giaGioDau
             if (soGioThue > gioDau) {
@@ -31,7 +66,7 @@ export default function BieuDoDoanhThuTuyChinh() {
             }
         }
         else if (hd[0].loaiThue == 'Thuê theo ngày') {
-            let soNgayThue = moment(hd[0].ngayTraPhong).diff(moment(hd[0].ngayNhanPhong), 'days')
+            let soNgayThue = tinhNgayThue(hd[0].ngayNhanPhong, hd[0].ngayTraPhong)
             return soNgayThue * hd[1].giaTheoNgay
         }
     }
@@ -102,6 +137,14 @@ export default function BieuDoDoanhThuTuyChinh() {
         }
     })
 
+    useEffect(() => {
+        let maNV = parseInt(localStorage.getItem('maTK'))
+        axios.get('http://localhost:8080/employees/' + maNV)
+            .then((res) => {
+                setNV(res.data)
+            })
+    }, [])
+
     return (
         <div className="row" style={{ marginTop: '2%' }}>
             <div className="row">
@@ -136,7 +179,7 @@ export default function BieuDoDoanhThuTuyChinh() {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-            {dshd.length > 0 && <BaoCaoDTNV ref={componentRef} dshd={dshd} />}
+            {dshd.length > 0 && <BaoCaoDTNV ref={componentRef} dshd={dshd} nv={nv} ngayDau={ngayDau} ngayCuoi={ngayCuoi}/>}
         </div>
     )
 }

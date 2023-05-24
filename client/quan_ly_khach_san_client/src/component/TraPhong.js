@@ -168,7 +168,16 @@ export default function TraPhong() {
 
     const thanhToan = async (e) => {
         try {
-            await axios.put('http://localhost:8080/orders/maHD/' + donDat.maHD + '/trangThai/Đã thanh toán')
+            await axios.post('http://localhost:8080/orders', {
+                maHD: donDat.maHD,
+                ngayLapHD: ngayLapHD,
+                ngayTraPhong: ngayTraPhong,
+                ngayNhanPhong: donDat.ngayNhanPhong,
+                loaiThue: donDat.loaiThue,
+                trangThaiHD: 'Đã thanh toán',
+                khachHang: { 'maKH': donDat.khachHang.maKH },
+                nhanVien: { 'maNV': nv.maNV }
+            })
             for (let i = 0; i < dscthdp.length; i++) {
                 await axios.put('http://localhost:8080/rooms/' + dscthdp[i].phong.maPhong + '/Trống')
             }
