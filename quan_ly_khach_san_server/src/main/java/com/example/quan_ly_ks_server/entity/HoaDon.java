@@ -43,7 +43,7 @@ public class HoaDon {
 	@Column(name = "ma_hd")
 	private Long maHD;
 
-	@Column(name = "ngay_lap_hd", columnDefinition = "DATETIME")
+	@Column(name = "ngay_lap_hd", columnDefinition = "DATE")
 	@ColumnDefault(value = "CURRENT_TIMESTAMP")
 	private Date ngayLapHD = new Date();
 

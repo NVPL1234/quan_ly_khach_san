@@ -33,6 +33,10 @@ nav ul li .nav-link:hover {
   background: rgb(2, 180, 250);
 }
 
+nav ul li :visited {
+  color: black;
+}
+
 nav ul li:hover .sub-menu {
   display: block;
 

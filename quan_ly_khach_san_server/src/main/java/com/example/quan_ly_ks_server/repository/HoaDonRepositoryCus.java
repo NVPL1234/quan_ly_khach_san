@@ -13,6 +13,6 @@ public interface HoaDonRepositoryCus {
 	public void capNhatTrangThai(Long maHD, String trangThai);
 	public List<Object> layDSHDCTDV(Long maKH, String trangThai);
 	public int capNhatHD(Long maHD, double tienCoc);
-	public List<Object> timDSHDTrong(int soNgay);
-	public List<Object> timDSHDTheo(String ngayDau, String ngayCuoi);
+	public List<HoaDon> timDSHDTrong(int soNgay);
+	public List<HoaDon> timDSHDTheo(String ngayDau, String ngayCuoi);
 }

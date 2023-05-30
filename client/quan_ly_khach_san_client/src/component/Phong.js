@@ -72,9 +72,9 @@ export default function Phong(props) {
                             <span className="row">Loại phòng: {phong.loaiPhong.ten}</span>
                             <span className="row">Diện tích: {phong.dienTich} m2</span>
                             <span className="row">Số giường: {phong.soGiuong} giường</span>
-                            {loaiThue == 'Thuê theo giờ' && <span className="row">Giá {phong.gioDau} giờ đầu: {phong.giaGioDau}đ/{phong.gioDau}giờ</span>}
-                            {loaiThue == 'Thuê theo giờ' && <span className="row">Giá giờ tiếp theo: {phong.giaGioTiepTheo}đ/giờ</span>}
-                            {loaiThue == 'Thuê theo ngày' && <span className="row">Giá theo ngày: {phong.giaTheoNgay}đ/ngày</span>}
+                            {loaiThue == 'Thuê theo giờ' && <span className="row">Giá {phong.gioDau} giờ đầu: {phong.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}đ/{phong.gioDau}giờ</span>}
+                            {loaiThue == 'Thuê theo giờ' && <span className="row">Giá giờ tiếp theo: {phong.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}đ/giờ</span>}
+                            {loaiThue == 'Thuê theo ngày' && <span className="row">Giá theo ngày: {phong.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}đ/ngày</span>}
                         </div>
 
                         <div className="col-2">
@@ -90,7 +90,7 @@ export default function Phong(props) {
             )}
             <div className="row fixed-bottom" style={{ backgroundColor: '#E4E8E8', padding: '0.5%' }}>
                 <div className="col" style={{ marginLeft: '30%' }}>
-                    <h5>TỔNG TIỀN: {tongTien}đ</h5>
+                    <h5>TỔNG TIỀN: {tongTien.toLocaleString({ style: "currency", currency: "vnd" })}đ</h5>
                 </div>
                 <div className="col">
                     <Link type="button" to='/kh/form_dat_phong' state={dsPhongDat} className="btn btn-success">ĐẶT PHÒNG</Link>

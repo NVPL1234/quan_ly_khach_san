@@ -178,7 +178,7 @@ export default function BieuDoDichVuNgay() {
                                     <YAxis />
                                     <Tooltip />
                                     <Legend />
-                                    <Bar dataKey="tongLuotThue" fill="#8884d8" name="Lượt thuê" />
+                                    <Bar dataKey="tongLuotThue" fill="#a27ea8" name="Lượt thuê" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -204,7 +204,7 @@ export default function BieuDoDichVuNgay() {
                                     <YAxis />
                                     <Tooltip />
                                     <Legend />
-                                    <Bar dataKey="tongLuotThue" fill="#8884d8" name="Lượt thuê" />
+                                    <Bar dataKey="tongLuotThue" fill="#a27ea8" name="Lượt thuê" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -230,7 +230,7 @@ export default function BieuDoDichVuNgay() {
                                     <YAxis />
                                     <Tooltip />
                                     <Legend />
-                                    <Bar dataKey="tongLuotThue" fill="#8884d8" name="Lượt thuê" />
+                                    <Bar dataKey="tongLuotThue" fill="#a27ea8" name="Lượt thuê" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>

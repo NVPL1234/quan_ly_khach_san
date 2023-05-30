@@ -14,9 +14,9 @@ export default function Nav() {
     }
 
     return (
-        <nav>
+        <nav style={{boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'}}>
             <ul>
-                <li><a><img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE_dqrS6O3IYt6iDl_5sija0XFkqjJ4DsUw92TisoAL2JKbfOYcf8jwy3PChXmBKTjCCo&usqp=CAU"} alt="" style={{ width: 100, height: 100 }} />HOTEL LAM HẢI</a></li>
+                <li><Link style={{textDecoration: 'none'}} to='/'><img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE_dqrS6O3IYt6iDl_5sija0XFkqjJ4DsUw92TisoAL2JKbfOYcf8jwy3PChXmBKTjCCo&usqp=CAU"} alt="" style={{ width: 100, height: 100 }} />HOTEL LAM HẢI</Link></li>
                 {quyen == '1' && <li>
                     <Link className="nav-link"><img src={"https://media.istockphoto.com/id/1205576737/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-%C4%91%C6%B0%E1%BB%9Dng-m%E1%BB%8Fng-th%E1%BB%9Di-gian-ng%E1%BB%A7-ng%C6%B0%E1%BB%9Di-ng%E1%BB%A7-tr%C3%AAn-gi%C6%B0%E1%BB%9Dng-kh%C3%A1i-ni%E1%BB%87m-thi%E1%BA%BFt-k%E1%BA%BF-vector-horeca.jpg?s=612x612&w=0&k=20&c=7OgnzAJg4Wo0rwdG3mVgyTGJE-_MDs7grTrIlXnV65s="} alt="" style={{ width: 30, height: 30 }}></img>PHÒNG</Link>
                     <ul className="sub-menu">

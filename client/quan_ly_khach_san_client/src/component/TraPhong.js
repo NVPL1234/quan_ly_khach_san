@@ -174,6 +174,7 @@ export default function TraPhong() {
                 ngayTraPhong: ngayTraPhong,
                 ngayNhanPhong: donDat.ngayNhanPhong,
                 loaiThue: donDat.loaiThue,
+                tienCoc: donDat.tienCoc,
                 trangThaiHD: 'Đã thanh toán',
                 khachHang: { 'maKH': donDat.khachHang.maKH },
                 nhanVien: { 'maNV': nv.maNV }
@@ -248,7 +249,7 @@ export default function TraPhong() {
                         </Modal.Header>
                         {donDat != null && <Modal.Body>
                             <div className="row">
-                                <span className="col">Ngày lập hoá đơn: {ngayLapHD.format('DD-MM-YYYY HH:mm:ss')}</span>
+                                <span className="col">Ngày lập hoá đơn: {ngayLapHD.format('DD-MM-YYYY')}</span>
                                 <span className="col">Ngày nhận phòng: {moment(donDat.ngayNhanPhong).format('DD-MM-YYYY HH:mm:ss')}</span>
                                 <span className="col">Ngày trả phòng: {ngayTraPhong.format('DD-MM-YYYY HH:mm:ss')}</span>
                             </div>
@@ -281,12 +282,12 @@ export default function TraPhong() {
                                                     <tr key={i}>
                                                         <td>{cthdp.phong.maPhong}</td>
                                                         {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.gioDau}</td>}
-                                                        {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau}</td>}
-                                                        {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo}</td>}
+                                                        {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                        {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                                         {donDat.loaiThue == 'Thuê theo giờ' && <td>{tinhGioThue(donDat.ngayNhanPhong, ngayTraPhong, cthdp.gioDau)}</td>}
-                                                        {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay}</td>}
+                                                        {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                                         {donDat.loaiThue == 'Thuê theo ngày' && <td>{tinhNgayThue(donDat.ngayNhanPhong, ngayTraPhong)}</td>}
-                                                        <td>{tinhThanhTien(cthdp)}</td>
+                                                        <td>{tinhThanhTien(cthdp).toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                                     </tr>
                                                 )}
                                             </tbody>
@@ -312,10 +313,10 @@ export default function TraPhong() {
                                                     <tr key={i}>
                                                         <td>{cthddv.phong.maPhong}</td>
                                                         <td>{cthddv.dichVu.tenDV}</td>
-                                                        <td>{cthddv.donGia}</td>
+                                                        <td>{cthddv.donGia.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                                         <td>{cthddv.dichVu.donVi}</td>
                                                         <td>{cthddv.soLuong}</td>
-                                                        <td>{cthddv.soLuong * cthddv.donGia}</td>
+                                                        <td>{(cthddv.soLuong * cthddv.donGia).toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                                     </tr>
                                                 )}
                                             </tbody>
@@ -332,10 +333,10 @@ export default function TraPhong() {
                                         <input id="tien_tra_lai" type="number" className="form-control col" value={tienThua} disabled />
                                     </div>
                                     <div className='row' style={{ marginLeft: '1%', marginTop: '2%' }}>
-                                        <span style={{ fontSize: 20 }}>TIỀN CỌC: {tienCoc}</span>
+                                        <span style={{ fontSize: 20 }}>TIỀN CỌC: {tienCoc.toLocaleString({ style: "currency", currency: "vnd" })}</span>
                                     </div>
                                     <div className='row' style={{ marginLeft: '1%', marginTop: '2%' }}>
-                                        <h5>TỔNG TIỀN THANH TOÁN: <h5 style={{ color: 'red' }}>{tinhTongTien()} đ</h5></h5>
+                                        <h5>TỔNG TIỀN THANH TOÁN: <h5 style={{ color: 'red' }}>{tinhTongTien().toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
                                     </div>
                                     <div className="row" style={{ marginTop: '2%', marginLeft: '1%' }}>
                                         <input type='button' value='THANH TOÁN' className='btn btn-primary col' style={{ marginLeft: '10%', marginRight: '10%' }} onClick={moModalXacNhanIn} />

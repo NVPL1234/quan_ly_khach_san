@@ -49,12 +49,12 @@ public class HoaDonController {
 	}
 
 	@GetMapping("/orders/soNgay/{soNgay}")	
-	public List<Object> timDSHDTrong(@PathVariable int soNgay){
+	public List<HoaDon> timDSHDTrong(@PathVariable int soNgay){
 		return hoaDonService.timDSHDTrong(soNgay);
 	}
 	
 	@GetMapping("/orders/ngayDau/{ngayDau}/ngayCuoi/{ngayCuoi}")
-	public List<Object> timDSHDTheo(@PathVariable String ngayDau, @PathVariable String ngayCuoi){
+	public List<HoaDon> timDSHDTheo(@PathVariable String ngayDau, @PathVariable String ngayCuoi){
 		return hoaDonService.timDSHDTheo(ngayDau, ngayCuoi);
 	}
 	

@@ -13,7 +13,7 @@ export default function BieuDoPhongTuyChinh() {
 
     const layDSPTuyChinh = async () => {
         try {
-            let res = await axios.get('http://localhost:8080/rooms/ngayDau/' + moment(ngayDau).format('YYYY-MM-DD HH:mm:ss') + '/ngayCuoi/' + moment(ngayCuoi).format('YYYY-MM-DD HH:mm:ss'))
+            let res = await axios.get('http://localhost:8080/rooms/ngayDau/' + moment(ngayDau).format('YYYY-MM-DD') + '/ngayCuoi/' + moment(ngayCuoi).format('YYYY-MM-DD'))
             let dsphong = res.data
             let ten = ''
             let tongLuotThue = 0
@@ -80,7 +80,7 @@ export default function BieuDoPhongTuyChinh() {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="tongLuotThue" fill="#8884d8" name="Lượt thuê" />
+                        <Bar dataKey="tongLuotThue" fill="#7aa3e5" name="Lượt thuê" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>

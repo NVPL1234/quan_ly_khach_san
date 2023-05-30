@@ -70,19 +70,14 @@ export default function FormPhieuDatDichVu() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {dshd.length > 0 ? dshd.map((hd, i) =>
+                                {dshd.length > 0 && dshd.map((hd, i) =>
                                     <tr key={i} onClick={e => xemCT(hd)}>
                                         <td>{hd[1].maPhong}</td>
                                         <td>{moment(hd[0].ngayNhanPhong).format('DD-MM-YYYY HH:mm:ss')}</td>
                                         <td>{moment(hd[0].ngayTraPhong).format('DD-MM-YYYY HH:mm:ss')}</td>
                                         <td>{hd[0].khachHang.tenKH}</td>
                                     </tr>
-                                ) : <tr>
-                                    <td></td>
-                                    {/* <td><span style={{ marginLeft: '65%' }}>Không tìm thấy dữ liệu</span></td> */}
-                                    <td></td>
-                                    <td></td>
-                                </tr>}
+                                )}
                             </tbody>
                         </table>
                     </div>

@@ -109,7 +109,7 @@ export default function DichVuDaDat(props) {
                                         <td>{cthddv.dichVu.donVi}</td>
                                         <td>{cthddv.soLuong}</td>
                                         <td>{cthddv.dichVu.loaiDichVu.ten}</td>
-                                        <td>{cthddv.soLuong * cthddv.donGia}</td>
+                                        <td>{(cthddv.soLuong * cthddv.donGia).toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                         <td>
                                             <button type="button" className="btn btn-warning" onClick={e => capNhat(cthddv)}>Sửa số lượng</button> | &nbsp;
                                             <button type="button" className="btn btn-danger" onClick={e => xoa(cthddv)}><TiDeleteOutline size={22} /></button>
@@ -125,7 +125,7 @@ export default function DichVuDaDat(props) {
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
-                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
+                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
             </div>
 
             <Modal show={hienModalCapNhat} onHide={dongModalCapNhat} size="lg">

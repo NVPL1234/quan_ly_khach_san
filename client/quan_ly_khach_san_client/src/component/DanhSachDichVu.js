@@ -138,7 +138,7 @@ export default function DanhSachDichVu(props) {
                                     <tr key={i}>
                                         <td>{dv.maDV}</td>
                                         <td>{dv.tenDV}</td>
-                                        <td>{dv.giaDV}</td>
+                                        <td>{dv.giaDV.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                         <td>{dv.donVi}</td>
                                         <td>{dv.soLuong}</td>
                                         <td>{dv.loaiDichVu.ten}</td>
@@ -166,7 +166,7 @@ export default function DanhSachDichVu(props) {
                             <label htmlFor="so-luong" className="col-2">Số lượng</label>
                             <input type="number" className="col form-control" id="so-luong" value={soLuong} onChange={e => tinhTongTien(e)} />
                             <div className="row" style={{ marginTop: '2%' }}>
-                                <h5>THÀNH TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
+                                <h5>THÀNH TIỀN: <h5 style={{ color: 'red' }}>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
                                 <input type='button' value='LƯU' className='btn btn-success' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={luu} />
                             </div>
                         </div>

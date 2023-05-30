@@ -28,6 +28,7 @@ export default function QuanLiPhong() {
     const [hienModalPhong, setHienModalPhong] = useState(false)
     const [dsLoaiPhong, setDSLoaiPhong] = useState([])
     const [dsTang, setDSTang] = useState([])
+    const [anMaPhong, setAnMaPhong] = useState(false)
     const storage = getStorage();
 
     const tim = () => {
@@ -56,6 +57,11 @@ export default function QuanLiPhong() {
         setDuongDanHinh('')
     }
 
+    const them = () => {
+        setAnMaPhong(false)
+        moModalPhong()
+    }
+
     const capNhat = (phong) => {
         setMaPhong(phong.maPhong)
         setTrangThai(phong.trangThaiPhong)
@@ -69,6 +75,7 @@ export default function QuanLiPhong() {
         setMaLoaiPhong(phong.loaiPhong.maLoaiPhong)
         setMaTang(phong.tang.maTang)
         setDuongDanHinh(phong.duongDanHinh)
+        setAnMaPhong(true)
         moModalPhong()
     }
 
@@ -321,7 +328,7 @@ export default function QuanLiPhong() {
                 <Nav />
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
-                <input type="button" className='btn btn-primary col-2' value='THÊM PHÒNG' onClick={moModalPhong} />
+                <input type="button" className='btn btn-primary col-2' value='THÊM PHÒNG' onClick={them} />
 
                 <Modal show={hienModalPhong} onHide={dongModalPhong} size="lg">
                     <Modal.Header closeButton>
@@ -336,10 +343,10 @@ export default function QuanLiPhong() {
                                 <label htmlFor='hinh' className="col-4 form-label">Chọn hình</label>
                                 <input type='file' className="col form-control" id='hinh' onChange={e => doiHinh(e)} />
                             </div>
-                            <div className="row" style={{ marginTop: '2%' }}>
+                            {anMaPhong == false && <div className="row" style={{ marginTop: '2%' }}>
                                 <label htmlFor='ma_phong' className="form-label col-4">Nhập mã phòng</label>
                                 <input type='text' className="form-control col" placeholder='Nhập mã phòng' id='ma_phong' value={maPhong} onChange={event => setMaPhong(event.target.value)} />
-                            </div>
+                            </div>}
                             <div className="row" style={{ marginTop: '2%' }}>
                                 <label htmlFor='loai_phong' className="form-label col-4">Chọn loại phòng</label>
                                 <select className="form-select col" id='loai_phong' value={maLoaiPhong} onChange={event => setMaLoaiPhong(event.target.value)}>
@@ -456,9 +463,9 @@ export default function QuanLiPhong() {
                                 <td>{phong.soGiuong}</td>
                                 <td>{phong.dienTich}</td>
                                 <td>{phong.gioDau}</td>
-                                <td>{phong.giaGioDau}</td>
-                                <td>{phong.giaGioTiepTheo}</td>
-                                <td>{phong.giaTheoNgay}</td>
+                                <td>{phong.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>
+                                <td>{phong.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>
+                                <td>{phong.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                 <td>{phong.loaiPhong.ten}</td>
                                 <td>{phong.tang.tenTang}</td>
                                 <td>

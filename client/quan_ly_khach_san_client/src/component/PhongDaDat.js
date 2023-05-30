@@ -119,12 +119,12 @@ export default function PhongDaDat(props) {
                                         <td>{pdd.phong.sucChua}</td>
                                         <td>{pdd.phong.dienTich}</td>
                                         {loaiThue == 'Thuê theo giờ' && <td>{pdd.phong.gioDau}</td>}
-                                        {loaiThue == 'Thuê theo giờ' && <td>{pdd.phong.giaGioDau}</td>}
-                                        {loaiThue == 'Thuê theo giờ' && <td>{pdd.phong.giaGioTiepTheo}</td>}
-                                        {loaiThue == 'Thuê theo ngày' && <td>{pdd.phong.giaTheoNgay}</td>}
+                                        {loaiThue == 'Thuê theo giờ' && <td>{pdd.phong.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                        {loaiThue == 'Thuê theo giờ' && <td>{pdd.phong.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                        {loaiThue == 'Thuê theo ngày' && <td>{pdd.phong.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                         {loaiThue == 'Thuê theo giờ' && <td>{moment(pdd.hoaDon.ngayTraPhong).diff(moment(pdd.hoaDon.ngayNhanPhong), 'hours')}</td>}
                                         {loaiThue == 'Thuê theo ngày' && <td>{moment(pdd.hoaDon.ngayTraPhong).diff(moment(pdd.hoaDon.ngayNhanPhong), 'days')}</td>}
-                                        <td>{tinhThanhTien(pdd.phong)}</td>
+                                        <td>{tinhThanhTien(pdd.phong).toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                         {dsPDD.length > 1 && <td>
                                             <input type="button" className="btn btn-danger" value="XOÁ" onClick={e => xoa(pdd)} />
                                         </td>}
@@ -136,7 +136,7 @@ export default function PhongDaDat(props) {
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
-                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
+                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
                 <input type="button" className="btn btn-success" value='NHẬN PHÒNG' onClick={nhanPhongDatTruoc} />

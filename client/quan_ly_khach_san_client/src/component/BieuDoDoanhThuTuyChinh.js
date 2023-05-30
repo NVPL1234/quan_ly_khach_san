@@ -51,30 +51,30 @@ export default function BieuDoDoanhThuTuyChinh() {
         }
     }
 
-    const tienPhong = (hd) => {
-        if (hd[0].loaiThue == 'Thuê theo giờ') {
-            let gioDau = hd[1].gioDau
-            let soGioThue = tinhGioThue(hd[0].ngayNhanPhong, hd[0].ngayTraPhong, hd[1].gioDau)
+    const tienPhong = (cthdp) => {
+        if (cthdp.hoaDon.loaiThue == 'Thuê theo giờ') {
+            let gioDau = cthdp.gioDau
+            let soGioThue = tinhGioThue(cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong, cthdp.gioDau)
             let soGioTiepTheo = soGioThue - gioDau
-            let tienGioDau = hd[1].giaGioDau
+            let tienGioDau = cthdp.giaGioDau
             if (soGioThue > gioDau) {
-                let tienGioTiepTheo = soGioTiepTheo * hd[1].giaGioTiepTheo
+                let tienGioTiepTheo = soGioTiepTheo * cthdp.giaGioTiepTheo
                 return tienGioDau + tienGioTiepTheo
             }
             else if (soGioThue = gioDau) {
                 return tienGioDau
             }
         }
-        else if (hd[0].loaiThue == 'Thuê theo ngày') {
-            let soNgayThue = tinhNgayThue(hd[0].ngayNhanPhong, hd[0].ngayTraPhong)
-            return soNgayThue * hd[1].giaTheoNgay
+        else if (cthdp.hoaDon.loaiThue == 'Thuê theo ngày') {
+            let soNgayThue = tinhNgayThue(cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong)
+            return soNgayThue * cthdp.giaTheoNgay
         }
     }
 
     const layDoanhThuTuyChinh = async () => {
         try {
             setDoanhThu([])
-            let res = await axios.get('http://localhost:8080/orders/ngayDau/' + moment(ngayDau).format('YYYY-MM-DD HH:mm:ss') + '/ngayCuoi/' + moment(ngayCuoi).format('YYYY-MM-DD HH:mm:ss'))
+            let res = await axios.get('http://localhost:8080/orders/ngayDau/' + moment(ngayDau).format('YYYY-MM-DD') + '/ngayCuoi/' + moment(ngayCuoi).format('YYYY-MM-DD'))
             setDSHD(res.data)
             let dshd = res.data
             let ngayLapHD = ''
@@ -84,8 +84,8 @@ export default function BieuDoDoanhThuTuyChinh() {
             let doanhThuTam = []
             for (let i = 0; i < dshd.length; i++) {
                 if (ngayLapHD == '')
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('DD-MM-YYYY')
-                if (ngayLapHD != moment(dshd[i][0].ngayLapHD).format('DD-MM-YYYY')) {
+                    ngayLapHD = moment(dshd[i].ngayLapHD).format('DD-MM-YYYY')
+                if (ngayLapHD != moment(dshd[i].ngayLapHD).format('DD-MM-YYYY')) {
                     tongTien = tongTienPhong + tongTienDV
                     doanhThuTam.push({
                         ngayLapHD: ngayLapHD,
@@ -93,15 +93,20 @@ export default function BieuDoDoanhThuTuyChinh() {
                         tongTienDV: tongTienDV,
                         tongTien: tongTien
                     })
-                    ngayLapHD = moment(dshd[i][0].ngayLapHD).format('DD-MM-YYYY')
+                    ngayLapHD = moment(dshd[i].ngayLapHD).format('DD-MM-YYYY')
                     tongTienPhong = 0
                     tongTienDV = 0
                     tongTien = 0
                 }
                 if (dshd.length - i == 1) {
-                    tongTienPhong = tongTienPhong + tienPhong(dshd[i])
-                    if (dshd[i][2] != null)
-                        tongTienDV = tongTienDV + (dshd[i][2].soLuong * dshd[i][2].donGia)
+                    let res1 = await axios.get('http://localhost:8080/room_order_details/' + dshd[i].maHD)
+                    let dscthdp = res1.data
+                    for (let j = 0; j < dscthdp.length; j++)
+                        tongTienPhong = tongTienPhong + tienPhong(dscthdp[j])
+                    let res2 = await axios.get('http://localhost:8080/service_order_details/' + dshd[i].maHD)
+                    let dscthddv = res2.data
+                    for (let k = 0; k < dscthddv.length; k++)
+                        tongTienDV = tongTienDV + (dscthddv[k].soLuong * dscthddv[k].donGia)
                     tongTien = tongTienPhong + tongTienDV
                     doanhThuTam.push({
                         ngayLapHD: ngayLapHD,
@@ -112,9 +117,14 @@ export default function BieuDoDoanhThuTuyChinh() {
                     setDoanhThu(doanhThuTam)
                 }
                 else {
-                    tongTienPhong = tongTienPhong + tienPhong(dshd[i])
-                    if (dshd[i][2] != null)
-                        tongTienDV = tongTienDV + (dshd[i][2].soLuong * dshd[i][2].donGia)
+                    let res1 = await axios.get('http://localhost:8080/room_order_details/' + dshd[i].maHD)
+                    let dscthdp = res1.data
+                    for (let j = 0; j < dscthdp.length; j++)
+                        tongTienPhong = tongTienPhong + tienPhong(dscthdp[j])
+                    let res2 = await axios.get('http://localhost:8080/service_order_details/' + dshd[i].maHD)
+                    let dscthddv = res2.data
+                    for (let k = 0; k < dscthddv.length; k++)
+                        tongTienDV = tongTienDV + (dscthddv[k].soLuong * dscthddv[k].donGia)
                 }
             }
         } catch (error) {
@@ -179,7 +189,7 @@ export default function BieuDoDoanhThuTuyChinh() {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-            {dshd.length > 0 && <BaoCaoDTNV ref={componentRef} dshd={dshd} nv={nv} ngayDau={ngayDau} ngayCuoi={ngayCuoi}/>}
+            {dshd.length > 0 && <BaoCaoDTNV ref={componentRef} dshd={dshd} nv={nv} ngayDau={ngayDau} ngayCuoi={ngayCuoi} />}
         </div>
     )
 }

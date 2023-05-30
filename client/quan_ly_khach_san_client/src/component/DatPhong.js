@@ -251,7 +251,7 @@ export default function DatPhong() {
             const res = await axios.post('http://localhost:8080/orders', {
                 ngayLapHD: moment().format(),
                 ngayTraPhong: moment(ngayTra).format(),
-                ngayNhanPhong: moment(ngayNhan).format(),
+                ngayNhanPhong: moment().format(),
                 loaiThue: loaiThue,
                 trangThaiHD: 'Đã nhận',
                 khachHang: { 'maKH': maKHf },
@@ -352,9 +352,9 @@ export default function DatPhong() {
                                                             <td>{p.sucChua}</td>
                                                             <td>{p.dienTich}</td>
                                                             {loaiThue == 'Thuê theo giờ' && <td>{p.gioDau}</td>}
-                                                            {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioDau}</td>}
-                                                            {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioTiepTheo}</td>}
-                                                            {loaiThue == 'Thuê theo ngày' && <td>{p.giaTheoNgay}</td>}
+                                                            {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                            {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                            {loaiThue == 'Thuê theo ngày' && <td>{p.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                                             {loaiThue == 'Thuê theo giờ' && <td>{tongGioThue}</td>}
                                                             {loaiThue == 'Thuê theo ngày' && <td>{tongNgayThue}</td>}
                                                             <td>
@@ -391,7 +391,7 @@ export default function DatPhong() {
                                             <input type='number' className="form-control" placeholder='Nhập tiền cọc' id='tien-coc' value={tienCoc} onChange={event => setTienCoc(event.target.value)} />
                                         </div>
                                         <div style={{ marginTop: '5%' }} className='row'>
-                                            <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
+                                            <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
                                         </div>
                                         <div className="row" style={{ marginTop: '5%' }}>
                                             <input type='button' value='ĐẶT PHÒNG' className='btn btn-primary col' style={{ marginRight: '2%' }} onClick={datPhong} />
@@ -419,7 +419,7 @@ export default function DatPhong() {
                                     <tr key={i}>
                                         <td>{moment(dd.ngayNhanPhong).format('DD-MM-YYYY HH:mm:ss')}</td>
                                         <td>{moment(dd.ngayTraPhong).format('DD-MM-YYYY HH:mm:ss')}</td>
-                                        <td>{dd.tienCoc}</td>
+                                        <td>{dd.tienCoc.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                         <td>{dd.khachHang.tenKH}</td>
                                         <td>
                                             <input type="button" className="btn btn-primary" value="XEM CHI TIẾT" onClick={e => xemCT(dd)} /> | &nbsp;                                            

@@ -82,19 +82,19 @@ public class HoaDonRepositoryCusImpl implements HoaDonRepositoryCus{
 
 	@Override
 	@Transactional
-	public List<Object> timDSHDTrong(int soNgay) {
+	public List<HoaDon> timDSHDTrong(int soNgay) {
 		if(soNgay != 0) {
-			Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don HD LEFT JOIN chi_tiet_hoa_don_phong CTP ON HD.ma_hd = CTP.ma_hd LEFT JOIN chi_tiet_hoa_don_dich_vu CTDV ON HD.ma_hd = CTDV.ma_hd WHERE HD.ngay_lap_hd BETWEEN GETDATE() - " + soNgay + " AND GETDATE() and HD.trang_thai_hd like N'Đã thanh toán' ORDER BY HD.ngay_lap_hd", "HoaDon");
+			Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don WHERE ngay_lap_hd BETWEEN GETDATE() - " + soNgay + " AND GETDATE() ORDER BY ngay_lap_hd", HoaDon.class);
 			return query.getResultList();
 		}
-		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don HD LEFT JOIN chi_tiet_hoa_don_phong CTP ON HD.ma_hd = CTP.ma_hd LEFT JOIN chi_tiet_hoa_don_dich_vu CTDV ON HD.ma_hd = CTDV.ma_hd WHERE DAY(HD.ngay_lap_hd) = DAY(GETDATE()) AND MONTH(HD.ngay_lap_hd) = MONTH(GETDATE()) AND YEAR(HD.ngay_lap_hd) = YEAR(GETDATE()) and HD.trang_thai_hd like N'Đã thanh toán' ORDER BY HD.ngay_lap_hd", "HoaDon");
+		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don WHERE DAY(ngay_lap_hd) = DAY(GETDATE()) AND MONTH(ngay_lap_hd) = MONTH(GETDATE()) AND YEAR(ngay_lap_hd) = YEAR(GETDATE()) ORDER BY ngay_lap_hd", HoaDon.class);
 		return query.getResultList();
 	}
 
 	@Override
 	@Transactional
-	public List<Object> timDSHDTheo(String ngayDau, String ngayCuoi) {
-		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don HD LEFT JOIN chi_tiet_hoa_don_phong CTP ON HD.ma_hd = CTP.ma_hd LEFT JOIN chi_tiet_hoa_don_dich_vu CTDV ON HD.ma_hd = CTDV.ma_hd WHERE HD.ngay_lap_hd BETWEEN '" + ngayDau + "' AND '" + ngayCuoi + "' and HD.trang_thai_hd like N'Đã thanh toán' ORDER BY HD.ngay_lap_hd, HD.ma_nv", "HoaDon");
+	public List<HoaDon> timDSHDTheo(String ngayDau, String ngayCuoi) {
+		Query query = entityManager.createNativeQuery("SELECT * FROM hoa_don WHERE ngay_lap_hd BETWEEN '" + ngayDau + "' AND '" + ngayCuoi + "' ORDER BY ngay_lap_hd, ma_nv", HoaDon.class);
 		return query.getResultList();
 	}
 }

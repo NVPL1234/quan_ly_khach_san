@@ -238,7 +238,7 @@ export default function QuanLiDichVu() {
                             <tr key={dv.maDV}>
                                 <td>{dv.maDV}</td>
                                 <td>{dv.tenDV}</td>
-                                <td>{dv.giaDV}</td>
+                                <td>{dv.giaDV.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                 <td>{dv.donVi}</td>
                                 <td>{dv.soLuong}</td>
                                 <td>{dv.loaiDichVu.ten}</td>

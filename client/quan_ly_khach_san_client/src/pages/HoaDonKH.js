@@ -11,8 +11,6 @@ export default function HoaDonKH() {
     let maKH = localStorage.getItem('maTK')
     const [dsHD, setDSHD] = useState([])
     const [loaiThue, setLoaiThue] = useState(localStorage.getItem('loaiThue'))
-    const [soGioThue, setSoGioThue] = useState(0)
-    const [soNgayThue, setSoNgayThue] = useState(0)
     const [dsCTHDP, setDSCTHDP] = useState([])
     const [dsCTHDDV, setDSCTHDDV] = useState([])
     const [tongTien, setTongTien] = useState(0)
@@ -27,7 +25,42 @@ export default function HoaDonKH() {
 
     const moModalCTHD = () => setHienModalCTHD(true);
 
-    const tinhTTTheoGio = (soGioThue, gioDau, giaGioDau, giaGioTiepTheo) => {
+    const tinhGioThue = (ngayNhanPhong, ngayTraPhong, gioDau) => {
+        let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+        if (tongGioThue == 0 || tongGioThue < gioDau)
+            return gioDau
+        else {
+            let tongPhutThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'minutes')
+            let phutThue = tongGioThue * 60
+            let phutLe = tongPhutThue - phutThue
+            if (phutLe >= 30) {
+                return tongGioThue + 1
+            }
+            else {
+                return tongGioThue
+            }
+        }
+    }
+
+    const tinhNgayThue = (ngayNhanPhong, ngayTraPhong) => {
+        let tongNgayThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'days')
+        if (tongNgayThue == 0)
+            return 1
+        else {
+            let tongGioThue = moment(ngayTraPhong).diff(moment(ngayNhanPhong), 'hours')
+            let gioThue = tongNgayThue * 24
+            let gioLe = tongGioThue - gioThue
+            if (gioLe >= 12) {
+                return tongNgayThue + 1
+            }
+            else {
+                return tongNgayThue
+            }
+        }
+    }
+
+    const tinhTTTheoGio = (gioDau, giaGioDau, giaGioTiepTheo, ngayNhanPhong, ngayTraPhong) => {
+        let soGioThue = tinhGioThue(ngayNhanPhong, ngayTraPhong, gioDau)
         let gioTiepTheo = soGioThue - gioDau
         if (soGioThue > gioDau) {
             let thanhTienGioDau = giaGioDau
@@ -41,24 +74,16 @@ export default function HoaDonKH() {
         }
     }
 
-    const tinhTTTheoNgay = (soNgayThue, giaTheoNgay) => {
+    const tinhTTTheoNgay = (giaTheoNgay, ngayNhanPhong, ngayTraPhong) => {
+        let soNgayThue = tinhNgayThue(ngayNhanPhong, ngayTraPhong)
         let thanhTien = soNgayThue * giaTheoNgay
         return thanhTien
-    }   
+    }
 
-    const xemCTHD = async (maHD, ngayNhanPhong, ngayTraPhong, loaiThue) => {
+    const xemCTHD = async (maHD, loaiThue) => {
 
         setLoaiThue(loaiThue)
-        let soGioThue = moment(ngayTraPhong).diff(ngayNhanPhong, 'hours')
-        let soNgayThue = moment(ngayTraPhong).diff(ngayNhanPhong, 'days')
         let tongTienTam = 0
-
-        if (loaiThue == 'Thuê theo giờ') {
-            setSoGioThue(soGioThue)
-        }
-        else if (loaiThue == 'Thuê theo ngày') {
-            setSoNgayThue(soNgayThue)
-        }
 
         try {
             let res1 = await axios.get('http://localhost:8080/room_order_details/' + maHD)
@@ -66,6 +91,7 @@ export default function HoaDonKH() {
             setDSCTHDP(dscthdp)
             for (let i = 0; i < dscthdp.length; i++) {
                 if (loaiThue == 'Thuê theo giờ') {
+                    let soGioThue = tinhGioThue(dscthdp[i].hoaDon.ngayNhanPhong, dscthdp[i].hoaDon.ngayTraPhong, dscthdp[i].gioDau)
                     let gioDau = dscthdp[i].gioDau
                     let gioTiepTheo = soGioThue - gioDau
                     if (soGioThue > gioDau) {
@@ -80,6 +106,7 @@ export default function HoaDonKH() {
                     }
                 }
                 else if (loaiThue == 'Thuê theo ngày') {
+                    let soNgayThue = tinhNgayThue(dscthdp[i].hoaDon.ngayNhanPhong, dscthdp[i].hoaDon.ngayTraPhong)
                     let thanhTien = soNgayThue * dscthdp[i].giaTheoNgay
                     tongTienTam = tongTienTam + thanhTien
                 }
@@ -122,9 +149,9 @@ export default function HoaDonKH() {
                     </thead>
                     <tbody>
                         {dsHD.map((hd) =>
-                            <tr key={hd.maHD} onClick={e => xemCTHD(hd.maHD, hd.ngayNhanPhong, hd.ngayTraPhong, hd.loaiThue)}>
+                            <tr key={hd.maHD} onClick={e => xemCTHD(hd.maHD, hd.loaiThue)}>
                                 <td>{hd.maHD}</td>
-                                <td>{moment(hd.ngayLapHD).format('DD-MM-YYYY HH:mm')}</td>
+                                <td>{moment(hd.ngayLapHD).format('DD-MM-YYYY')}</td>
                                 <td>{moment(hd.ngayNhanPhong).format('DD-MM-YYYY HH:mm')}</td>
                                 <td>{moment(hd.ngayTraPhong).format('DD-MM-YYYY HH:mm')}</td>
                                 <td>{hd.loaiThue}</td>
@@ -164,15 +191,13 @@ export default function HoaDonKH() {
                                             <tr key={index}>
                                                 <td>{cthdp.phong.maPhong}</td>
                                                 {loaiThue == 'Thuê theo giờ' && <td>{cthdp.gioDau}</td>}
-                                                {loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau}</td>}
-                                                {loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo}</td>}
-                                                {loaiThue == 'Thuê theo giờ' && <td>{soGioThue}</td>}
-                                                {loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay}</td>}
-                                                {loaiThue == 'Thuê theo ngày' && <td>{soNgayThue}</td>}
-                                                {loaiThue == 'Thuê qua đêm' && <td></td>}
-                                                {loaiThue == 'Thuê qua đêm' && <td></td>}
-                                                {loaiThue == 'Thuê theo giờ' && <td className="thanh_tien">{tinhTTTheoGio(soGioThue, cthdp.gioDau, cthdp.giaGioDau, cthdp.giaGioTiepTheo)}</td>}
-                                                {loaiThue == 'Thuê theo ngày' && <td className="thanh_tien">{tinhTTTheoNgay(soNgayThue, cthdp.giaTheoNgay)}</td>}
+                                                {loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                {loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                {loaiThue == 'Thuê theo giờ' && <td>{tinhGioThue(cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong, cthdp.gioDau)}</td>}
+                                                {loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                {loaiThue == 'Thuê theo ngày' && <td>{tinhNgayThue(cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong)}</td>}
+                                                {loaiThue == 'Thuê theo giờ' && <td className="thanh_tien">{tinhTTTheoGio(cthdp.gioDau, cthdp.giaGioDau, cthdp.giaGioTiepTheo, cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong).toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                                {loaiThue == 'Thuê theo ngày' && <td className="thanh_tien">{tinhTTTheoNgay(cthdp.giaTheoNgay, cthdp.hoaDon.ngayNhanPhong, cthdp.hoaDon.ngayTraPhong).toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                             </tr>
                                         )}
                                     </tbody>
@@ -196,17 +221,17 @@ export default function HoaDonKH() {
                                         {dsCTHDDV.map((cthddv, index) =>
                                             <tr key={index}>
                                                 <td>{cthddv.dichVu.tenDV}</td>
-                                                <td>{cthddv.donGia}</td>
+                                                <td>{cthddv.donGia.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                                 <td>{cthddv.dichVu.donVi}</td>
                                                 <td>{cthddv.soLuong}</td>
-                                                <td className="thanh_tien">{cthddv.soLuong * cthddv.donGia}</td>
+                                                <td>{(cthddv.soLuong * cthddv.donGia).toLocaleString({ style: "currency", currency: "vnd" })}</td>
                                             </tr>
                                         )}
                                     </tbody>
                                 </table>
                             </div>
                             <div className="row" style={{ marginTop: '2%', textAlign: 'center' }}>
-                                <h5>TỔNG TIỀN: {tongTien}</h5>
+                                <h5>TỔNG TIỀN: {tongTien.toLocaleString({ style: "currency", currency: "vnd" })}</h5>
                             </div>
                         </div>
                     </Modal.Body>

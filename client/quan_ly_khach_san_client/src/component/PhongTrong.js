@@ -131,9 +131,9 @@ export default function PhongTrong(props) {
                                         <td>{p.sucChua}</td>
                                         <td>{p.dienTich}</td>
                                         {loaiThue == 'Thuê theo giờ' && <td>{p.gioDau}</td>}
-                                        {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioDau}</td>}
-                                        {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioTiepTheo}</td>}
-                                        {loaiThue == 'Thuê theo ngày' && <td>{p.giaTheoNgay}</td>}
+                                        {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                        {loaiThue == 'Thuê theo giờ' && <td>{p.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                                        {loaiThue == 'Thuê theo ngày' && <td>{p.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                                         {loaiThue == 'Thuê theo giờ' && <td>{moment(donDat.ngayTraPhong).diff(moment(donDat.ngayNhanPhong), "hours")}</td>}
                                         {loaiThue == 'Thuê theo ngày' && <td>{moment(donDat.ngayTraPhong).diff(moment(donDat.ngayNhanPhong), "days")}</td>}
                                         <td>
@@ -147,7 +147,7 @@ export default function PhongTrong(props) {
                 </div>
             </div>
             <div className="row" style={{ marginTop: '2%' }}>
-                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien} đ</h5></h5>
+                <h5>TỔNG TIỀN: <h5 style={{ color: 'red' }}>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
                 <input type='button' value='THÊM' className='btn btn-success' style={{ marginLeft: '40%', marginTop: '5%', width: '20%' }} onClick={themCTHDPhong} />
             </div>
         </div>

@@ -67,12 +67,12 @@ public class HoaDonServiceImpl implements HoaDonService{
 	}
 
 	@Override
-	public List<Object> timDSHDTrong(int soNgay) {
+	public List<HoaDon> timDSHDTrong(int soNgay) {
 		return hoaDonRepository.timDSHDTrong(soNgay);
 	}
 
 	@Override
-	public List<Object> timDSHDTheo(String ngayDau, String ngayCuoi) {
+	public List<HoaDon> timDSHDTheo(String ngayDau, String ngayCuoi) {
 		return hoaDonRepository.timDSHDTheo(ngayDau, ngayCuoi);
 	}
 }

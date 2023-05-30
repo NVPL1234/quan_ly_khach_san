@@ -91,7 +91,7 @@ export const HoaDon = React.forwardRef((props, ref) => {
         <span>HOÁ ĐƠN</span>
       </div>
       <div className="row" style={{ marginTop: '1%' }}>
-        <span className="col">Ngày lập hoá đơn: {ngayLapHD.format('DD-MM-YYYY HH:mm:ss')}</span>
+        <span className="col">Ngày lập hoá đơn: {ngayLapHD.format('DD-MM-YYYY')}</span>
         <span className="col">Ngày nhận phòng: {moment(donDat.ngayNhanPhong).format('DD-MM-YYYY HH:mm:ss')}</span>
         <span className="col">Ngày trả phòng: {ngayTraPhong.format('DD-MM-YYYY HH:mm:ss')}</span>
       </div>
@@ -125,12 +125,12 @@ export const HoaDon = React.forwardRef((props, ref) => {
               <tr key={i}>
                 <td>{cthdp.phong.maPhong}</td>
                 {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.gioDau}</td>}
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau}</td>}
-                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo}</td>}
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioDau.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
+                {donDat.loaiThue == 'Thuê theo giờ' && <td>{cthdp.giaGioTiepTheo.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                 {donDat.loaiThue == 'Thuê theo giờ' && <td>{tinhGioThue(donDat.ngayNhanPhong, ngayTraPhong, cthdp.gioDau)}</td>}
-                {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay}</td>}
+                {donDat.loaiThue == 'Thuê theo ngày' && <td>{cthdp.giaTheoNgay.toLocaleString({ style: "currency", currency: "vnd" })}</td>}
                 {donDat.loaiThue == 'Thuê theo ngày' && <td>{tinhNgayThue(donDat.ngayNhanPhong, ngayTraPhong)}</td>}
-                <td>{tinhThanhTien(cthdp)}</td>
+                <td>{tinhThanhTien(cthdp).toLocaleString({ style: "currency", currency: "vnd" })}</td>
               </tr>
             )}
           </tbody>
@@ -156,20 +156,20 @@ export const HoaDon = React.forwardRef((props, ref) => {
               <tr key={i}>
                 <td>{cthddv.phong.maPhong}</td>
                 <td>{cthddv.dichVu.tenDV}</td>
-                <td>{cthddv.donGia}</td>
+                <td>{cthddv.donGia.toLocaleString({ style: "currency", currency: "vnd" })}</td>
                 <td>{cthddv.dichVu.donVi}</td>
                 <td>{cthddv.soLuong}</td>
-                <td>{cthddv.soLuong * cthddv.donGia}</td>
+                <td>{(cthddv.soLuong * cthddv.donGia).toLocaleString({ style: "currency", currency: "vnd" })}</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
       <div className='row' style={{ marginTop: '2%' }}>
-        <span style={{ fontSize: 20 }}>TIỀN CỌC: {donDat.tienCoc}</span>
+        <span style={{ fontSize: 20 }}>TIỀN CỌC: {donDat.tienCoc.toLocaleString({ style: "currency", currency: "vnd" })}</span>
       </div>
       <div className='row' style={{ marginTop: '2%' }}>
-        <h5>TỔNG TIỀN THANH TOÁN: <h5>{tongTien} đ</h5></h5>
+        <h5>TỔNG TIỀN THANH TOÁN: <h5>{tongTien.toLocaleString({ style: "currency", currency: "vnd" })} đ</h5></h5>
       </div>
       <div className='row' style={{ marginTop: '2%', textAlign: 'center' }}>
         <h5>---TRÂN TRỌNG CẢM ƠN QUÝ KHÁCH!---</h5>
